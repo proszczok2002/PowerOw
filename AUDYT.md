@@ -1,4 +1,13 @@
-# Audyt PowerOw 1.0
+# Audyt PowerOw
+
+## Wydanie 1.01 (v1.0.1)
+
+- Publiczne wydanie jest oznaczone jako stabilne. Aktualizator v1.0 odczytuje tag `v1.0.1`, a interfejs używa go w tytule. SHA-256 instalatora pobranego niezależnie z GitHuba i pliku pobranego wewnątrz aktualizatora były zgodne z metadanymi wydania i plikiem `SHA256SUMS.txt`. [Wydanie 1.01](https://github.com/proszczok2002/PowerOw/releases/tag/v1.0.1)
+- W Windows 11 z polskim NVDA 2026.3.1 publiczna wersja 1.0 z włączoną ochroną pokazała ofertę w tle. Użyto Alt+Tab, aby przejść do pytania, i wybrano domyślne **Nie**. Następnie z ustawień wybrano **Sprawdź aktualizacje teraz** i potwierdzono pobieranie. NVDA odczytał postęp pobierania, informację o zweryfikowaniu pliku oraz postęp instalacji. Monit UAC potwierdzono klawiaturą.
+- Instalacja zakończyła się przy włączonym Defenderze, a program sam otworzył okno **PowerOw v1.0.1**. Plik aplikacji odpowiadał kompilacji wydania. Zachowały się zadanie z najwyższymi uprawnieniami, stan ochrony i ustawienia użytkownika, w tym interwał 30 minut.
+- Zasobnik przekazuje fokus do menu po otwarciu. NVDA odczytał **Menu PowerOw w zasobniku** i **Otwórz PowerOw** przed użyciem strzałki. Wybranie **Ustawienia…** przeniosło fokus na język interfejsu. Wybranie **Sprawdź aktualizacje** odczytało komunikat o aktualnej wersji. Oba polecenia zadziałały przy schowanym głównym oknie.
+- Po aktualizacji wyłączono i ponownie włączono autostart i ochronę w ustawieniach. Zweryfikowano rzeczywistą zmianę stanu zadania Harmonogramu i zapisu ochrony, a następnie powrót do pierwotnej konfiguracji.
+- Aplikacja przeszła 3510 kontroli, w tym sprawdzenie 197 kluczy w ośmiu językach, dostępnych nazw elementów w 24 zestawieniach języka i motywu oraz walidacji odpowiedzi aktualizatora. Instalator zbudowano z ośmioma językami. Każda wersja językowa README i opisu wydania zawiera nowe polecenia zasobnika.
 
 ## Zakres źródeł Windows
 
@@ -53,5 +62,7 @@ W próbach z uruchomieniem instalatora lub dezinstalatora przez skrypt testowy M
 Test `tests/PowerOw.Checks.csproj` sprawdza klucze i zmienne tłumaczeń, 24 połączenia języka i motywu i rzeczywisty odczyt źródeł. Opcja `--guest` wykonuje również rzeczywiste operacje na wpisach próbnych w odizolowanym Windows. Zwykły token wybiera próby konta, a podniesiony token wybiera próby komputera.
 
 Skrypt [GuestUiAudit.ps1](tests/GuestUiAudit.ps1) obsługuje kroki klawiaturą, sprawdza fokus przez UI Automation i zapisuje mowę NVDA. Do próby dezinstalacji służą etapy `PrepareUninstall` i `VerifyUninstall`. Między nimi uruchamia się dezinstalator z listy **Zainstalowane aplikacje**. Etap `ObserveUninstall` może równolegle zapisać odczyt ostrzeżenia i komunikatu końcowego przez NVDA.
+
+Próbę przejścia z publicznej wersji 1.0 do 1.01 odtwarza etap `UpdateRetry`. Użyj `-ExistingUpdateOffer`, gdy oferta po sprawdzeniu w tle jest już widoczna. Monit UAC potwierdź na pulpicie maszyny testowej. Potem `VerifyUpdate` sprawdza ponowne otwarcie okna i zachowanie konfiguracji. Etap `Tray` oczekuje zainstalowanego najnowszego stabilnego wydania i sprawdza oba nowe polecenia zasobnika.
 
 Po ponownym uruchomieniu maszyny skrypt [GuestBoot.ps1](tests/GuestBoot.ps1) sprawdza, czy proces PowerOw pojawił się zgodnie z ustawieniem autostartu, czy jego token ma podniesione uprawnienia oraz czy jest widoczny monit UAC.
