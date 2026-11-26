@@ -1,0 +1,105 @@
+# key	English	Polski	Deutsch	Русский	Hrvatski	Français	Español	简体中文
+AdminSummary	Administrator mode · Account and system startup	Tryb administratora · Autostart konta i systemu	Administratormodus · Autostart von Konto und System	Режим администратора · Автозапуск учётной записи и системы	Administratorski način rada · Pokretanje računa i sustava	Mode administrateur · Démarrage du compte et du système	Modo administrador · Inicio de la cuenta y del sistema	管理员模式 · 账户和系统启动项
+MenuApp	&File	&Plik	&Datei	&Файл	&Datoteka	&Fichier	&Archivo	文件(&F)
+MenuEntry	&Entry	&Wpis	&Eintrag	&Запись	&Unos	&Entrée	&Entrada	启动项(&E)
+MenuView	&View	W&idok	&Ansicht	&Вид	&Pogled	&Affichage	&Ver	视图(&V)
+MenuHelp	&Help	P&omoc	&Hilfe	&Справка	Po&moć	A&ide	A&yuda	帮助(&H)
+Settings	&Settings…	&Ustawienia…	&Einstellungen…	&Настройки…	&Postavke…	&Paramètres…	&Configuración…	设置…
+SettingsTitle	PowerOw settings	Ustawienia PowerOw	PowerOw-Einstellungen	Настройки PowerOw	Postavke programa PowerOw	Paramètres de PowerOw	Configuración de PowerOw	PowerOw 设置
+WindowsSettings	Windows startup settings…	Ustawienia autostartu Windows…	Windows-Autostarteinstellungen…	Параметры автозагрузки Windows…	Postavke pokretanja u Windowsu…	Paramètres de démarrage de Windows…	Configuración de inicio de Windows…	Windows 启动设置…
+Exit	E&xit PowerOw	&Zakończ PowerOw	PowerOw be&enden	Вы&ход из PowerOw	&Zatvori PowerOw	&Quitter PowerOw	&Salir de PowerOw	退出 PowerOw
+Tray	PowerOw — Startup protection	PowerOw — Ochrona autostartu	PowerOw — Autostartschutz	PowerOw — Защита автозагрузки	PowerOw — Zaštita automatskog pokretanja	PowerOw — Protection du démarrage	PowerOw — Protección del inicio	PowerOw — 启动保护
+TrayOpen	&Open PowerOw	&Otwórz PowerOw	PowerOw ö&ffnen	&Открыть PowerOw	&Otvori PowerOw	&Ouvrir PowerOw	&Abrir PowerOw	打开 PowerOw(&O)
+TrayMenu	PowerOw notification area menu	Menu PowerOw w zasobniku	PowerOw-Infobereichsmenü	Меню PowerOw в области уведомлений	Izbornik PowerOw u području obavijesti	Menu PowerOw de la zone de notification	Menú de PowerOw en el área de notificación	PowerOw 通知区域菜单
+EntryMenu	Startup entry menu	Menu wpisu autostartu	Menü des Autostarteintrags	Меню записи автозагрузки	Izbornik unosa za automatsko pokretanje	Menu de l’entrée de démarrage	Menú de la entrada de inicio	启动项菜单
+Source	Startup source	Źródło autostartu	Autostartquelle	Источник автозапуска	Izvor automatskog pokretanja	Source de démarrage	Origen del inicio	启动来源
+State	State filter	Filtr stanu	Statusfilter	Фильтр по состоянию	Filtar stanja	Filtre d’état	Filtro de estado	状态筛选
+Search	Search startup entries	Szukaj wpisów autostartu	Autostarteinträge suchen	Поиск записей автозагрузки	Pretraži unose za automatsko pokretanje	Rechercher des entrées de démarrage	Buscar entradas de inicio	搜索启动项
+Entries	Startup entries	Wpisy autostartu	Autostarteinträge	Записи автозагрузки	Unosi za automatsko pokretanje	Entrées de démarrage	Entradas de inicio	启动项
+Details	Entry details	Szczegóły wpisu	Eintragsdetails	Сведения о записи	Detalji unosa	Détails de l’entrée	Detalles de la entrada	启动项详情
+All	All sources	Wszystkie źródła	Alle Quellen	Все источники	Svi izvori	Toutes les sources	Todos los orígenes	所有来源
+StartupPrograms	Programs that start with Windows	Programy startujące z Windows	Programme, die mit Windows starten	Программы, запускаемые вместе с Windows	Programi koji se pokreću uz Windows	Programmes qui démarrent avec Windows	Programas que se inician con Windows	随 Windows 启动的程序
+ProgramTasks	Tasks from programs	Zadania programów	Aufgaben von Programmen	Задания программ	Zadaci programa	Tâches des programmes	Tareas de programas	程序任务
+ProgramServices	Services from programs	Usługi programów	Dienste von Programmen	Службы программ	Servisi programa	Services des programmes	Servicios de programas	程序服务
+Logon	Logon entries	Wpisy logowania	Anmeldeeinträge	Записи входа в систему	Unosi pri prijavi	Entrées d’ouverture de session	Entradas de inicio de sesión	登录启动项
+Kind.Registry	Registry	Rejestr	Registrierung	Реестр	Registar	Registre	Registro	注册表
+Kind.StartupFolder	Startup folder	Folder Autostart	Autostartordner	Папка автозагрузки	Mapa za pokretanje	Dossier de démarrage	Carpeta de inicio	启动文件夹
+Kind.Task	Scheduled tasks	Zadania harmonogramu	Geplante Aufgaben	Задания планировщика	Zakazani zadaci	Tâches planifiées	Tareas programadas	计划任务
+Kind.Service	Services	Usługi	Dienste	Службы	Servisi	Services	Servicios	服务
+Kind.Driver	Drivers	Sterowniki	Treiber	Драйверы	Upravljački programi	Pilotes	Controladores	驱动程序
+Kind.System	System extensions	Rozszerzenia systemowe	Systemerweiterungen	Системные расширения	Proširenja sustava	Extensions système	Extensiones del sistema	系统扩展
+Kind.Wmi	WMI subscriptions	Subskrypcje WMI	WMI-Abonnements	Подписки WMI	WMI pretplate	Abonnements WMI	Suscripciones WMI	WMI 订阅
+Kind.Packaged	Packaged app startup (MSIX/UWP)	Autostart aplikacji pakietowych (MSIX/UWP)	Autostart paketierter Apps (MSIX/UWP)	Автозапуск пакетных приложений (MSIX/UWP)	Pokretanje zapakiranih aplikacija (MSIX/UWP)	Démarrage des applications empaquetées (MSIX/UWP)	Inicio de aplicaciones empaquetadas (MSIX/UWP)	打包应用启动项 (MSIX/UWP)
+AllStates	Any state	Dowolny stan	Alle Status	Все состояния	Sva stanja	Tous les états	Cualquier estado	任意状态
+FilterActive	Active or registered	Aktywne lub zarejestrowane	Aktiv oder registriert	Активные или зарегистрированные	Aktivni ili registrirani	Actives ou inscrites	Activas o registradas	已启用或已注册
+FilterInactive	Disabled, removed or delayed	Wyłączone, usunięte lub opóźnione	Deaktiviert, entfernt oder verzögert	Отключённые, удалённые или отложенные	Onemogućeni, uklonjeni ili odgođeni	Désactivées, supprimées ou différées	Desactivadas, eliminadas o retrasadas	已禁用、已移除或已延迟
+FilterGuarded	Protected	Objęte ochroną	Geschützt	Под защитой	Zaštićeni	Protégées	Protegidas	受保护
+FilterReadOnly	Read-only here	Tylko odczyt w tym oknie	Hier schreibgeschützt	Только чтение в этом окне	Ovdje samo za čitanje	En lecture seule ici	Solo lectura aquí	在此窗口中只读
+User	This account	To konto	Dieses Konto	Эта учётная запись	Ovaj račun	Ce compte	Esta cuenta	当前账户
+Machine	This computer	Ten komputer	Dieser Computer	Этот компьютер	Ovo računalo	Cet ordinateur	Este equipo	此计算机
+EntryState.Active	Registered	Zarejestrowany	Registriert	Зарегистрировано	Registrirano	Inscrite	Registrada	已注册
+EntryState.WindowsDisabled	Disabled in Windows	Wyłączony w Windows	In Windows deaktiviert	Отключено в Windows	Onemogućeno u Windowsu	Désactivée dans Windows	Desactivada en Windows	已在 Windows 中禁用
+EntryState.Manual	Manual or trigger start	Ręcznie lub przez wyzwalacz	Manuell oder durch Auslöser	Вручную или по триггеру	Ručno ili okidačem	Manuel ou sur déclencheur	Manual o por desencadenador	手动或触发启动
+EntryState.Disabled	Disabled	Wyłączony	Deaktiviert	Отключено	Onemogućeno	Désactivée	Desactivada	已禁用
+EntryState.Removed	Removed	Usunięty	Entfernt	Удалено	Uklonjeno	Supprimée	Eliminada	已移除
+EntryState.Delayed	Delayed	Opóźniony	Verzögert	Отложено	Odgođeno	Différée	Retrasada	已延迟
+EntryState.ReadOnly	Inspect only	Do wglądu	Nur zur Ansicht	Для просмотра	Samo za pregled	À consulter	Solo consulta	仅供查看
+Guarded	Protected	Objęty ochroną	Geschützt	Под защитой	Zaštićeno	Protégée	Protegida	受保护
+Pending	Pending change	Zmiana w toku	Änderung ausstehend	Изменение ожидает завершения	Promjena na čekanju	Modification en attente	Cambio pendiente	更改待完成
+Location	Location	Lokalizacja	Speicherort	Расположение	Lokacija	Emplacement	Ubicación	位置
+Command	Startup command	Polecenie autostartu	Autostartbefehl	Команда автозапуска	Naredba pokretanja	Commande de démarrage	Comando de inicio	启动命令
+File	Target file	Plik docelowy	Zieldatei	Целевой файл	Ciljna datoteka	Fichier cible	Archivo de destino	目标文件
+SourceDetails	Source details	Szczegóły źródła	Details zur Quelle	Сведения об источнике	Detalji izvora	Détails de la source	Detalles del origen	来源详情
+NoData	No data	Brak danych	Keine Daten	Нет данных	Nema podataka	Aucune donnée	Sin datos	无数据
+NoSelection	Select an entry to read its details.	Wybierz wpis, aby przeczytać jego szczegóły.	Wählen Sie einen Eintrag, um seine Details zu lesen.	Выберите запись, чтобы просмотреть сведения.	Odaberite unos za prikaz detalja.	Sélectionnez une entrée pour lire ses détails.	Selecciona una entrada para consultar sus detalles.	选择一项以阅读详情。
+ResultCount	Entries shown: {0}	Widoczne wpisy: {0}	Angezeigte Einträge: {0}	Показано записей: {0}	Prikazani unosi: {0}	Entrées affichées : {0}	Entradas visibles: {0}	显示的启动项：{0}
+SelectedCount	Selected entries: {0}	Zaznaczone wpisy: {0}	Ausgewählte Einträge: {0}	Выбрано записей: {0}	Odabrani unosi: {0}	Entrées sélectionnées : {0}	Entradas seleccionadas: {0}	已选择 {0} 个启动项
+ChangedCount	Entries changed: {0}	Zmienione wpisy: {0}	Geänderte Einträge: {0}	Изменено записей: {0}	Promijenjeni unosi: {0}	Entrées modifiées : {0}	Entradas modificadas: {0}	已更改 {0} 个启动项
+Scanning	Reading startup locations…	Odczytywanie lokalizacji autostartu…	Autostartorte werden gelesen…	Чтение расположений автозагрузки…	Čitanje lokacija za automatsko pokretanje…	Lecture des emplacements de démarrage…	Leyendo las ubicaciones de inicio…	正在读取启动位置…
+SomeUnavailable	Some locations are unavailable in {0}.	Część lokalizacji jest niedostępna w kategorii {0}.	Einige Speicherorte sind nicht verfügbar unter {0}.	Некоторые расположения недоступны в категориях {0}.	Neke lokacije nisu dostupne u kategoriji {0}.	Certains emplacements sont inaccessibles dans {0}.	Algunas ubicaciones no están disponibles en {0}.	{0} 中的部分位置无法访问。
+Disable	&Disable	&Wyłącz	&Deaktivieren	&Отключить	&Onemogući	&Désactiver	&Desactivar	禁用
+Remove	Re&move…	&Usuń…	&Entfernen…	&Удалить…	&Ukloni…	&Supprimer…	E&liminar…	移除…
+Restore	&Restore or enable…	&Przywróć lub włącz…	&Wiederherstellen oder aktivieren…	&Восстановить или включить…	&Vrati ili omogući…	&Rétablir ou activer…	&Restaurar o activar…	恢复或启用…
+Enable	Enable again	Włącz ponownie	Wieder aktivieren	Включить снова	Ponovo omogući	Réactiver	Volver a activar	重新启用
+DisableAndGuard	Disable and &protect…	Wyłącz i &pilnuj…	Deaktivieren und &schützen…	Отключить и &защитить…	Onemogući i &zaštiti…	Désactiver et &protéger…	Desactivar y &proteger…	禁用并保护…
+RemoveAndGuard	Remove and protect…	Usuń i pilnuj…	Entfernen und schützen…	Удалить и защитить…	Ukloni i zaštiti…	Supprimer et protéger…	Eliminar y proteger…	移除并保护…
+StopGuarding	Stop protecting this entry	Przestań pilnować wpisu	Schutz dieses Eintrags beenden	Снять защиту с записи	Prekini zaštitu ovog unosa	Cesser de protéger cette entrée	Dejar de proteger esta entrada	停止保护此启动项
+ForgetBackup	Delete the saved copy…	Usuń zapisaną kopię…	Gesicherte Kopie löschen…	Удалить сохранённую копию…	Izbriši spremljenu kopiju…	Supprimer la copie enregistrée…	Borrar la copia guardada…	删除保存的备份…
+Delay	&Delay startup…	&Opóźnij uruchomienie…	Start &verzögern…	&Отложить запуск…	&Odgodi pokretanje…	&Différer le démarrage…	&Retrasar el inicio…	延迟启动…
+DelayTitle	Delay startup at logon	Opóźnienie uruchomienia przy logowaniu	Autostart bei der Anmeldung verzögern	Задержка запуска при входе в систему	Odgoda pokretanja pri prijavi	Différer le démarrage à l’ouverture de session	Retrasar el inicio al iniciar sesión	登录时延迟启动
+DelayExplanation	Windows Task Scheduler starts this program after you sign in. Choose a delay from 5 to 600 seconds.	Harmonogram zadań uruchomi program po zalogowaniu. Wybierz opóźnienie od 5 do 600 sekund.	Die Windows-Aufgabenplanung startet das Programm nach der Anmeldung. Wählen Sie eine Verzögerung von 5 bis 600 Sekunden.	Планировщик заданий запустит программу после входа. Укажите задержку от 5 до 600 секунд.	Planer zadataka pokrenut će program nakon prijave. Odaberite odgodu od 5 do 600 sekundi.	Le Planificateur de tâches lance ce programme après votre connexion. Choisissez un délai de 5 à 600 secondes.	El Programador de tareas inicia este programa tras iniciar sesión. Elige un retraso de 5 a 600 segundos.	Windows 任务计划程序会在登录后启动此程序。请选择 5 到 600 秒的延迟。
+Seconds	Delay in seconds	Opóźnienie w sekundach	Verzögerung in Sekunden	Задержка в секундах	Odgoda u sekundama	Délai en secondes	Retraso en segundos	延迟秒数
+DelayApplied	This program starts about {0} seconds after sign-in.	Ten program uruchamia się około {0} sekund po zalogowaniu.	Dieses Programm startet etwa {0} Sekunden nach der Anmeldung.	Программа запускается примерно через {0} с после входа.	Program se pokreće približno {0} sekundi nakon prijave.	Ce programme démarre environ {0} secondes après la connexion.	Este programa se inicia unos {0} segundos después de iniciar sesión.	此程序将在登录约 {0} 秒后启动。
+RuleIdentity	Protection watches this name in this location.	Ochrona pilnuje tej nazwy w tej lokalizacji.	Der Schutz überwacht diesen Namen an diesem Speicherort.	Защита отслеживает это имя в данном расположении.	Zaštita prati ovaj naziv na ovoj lokaciji.	La protection surveille ce nom à cet emplacement.	La protección vigila este nombre en esta ubicación.	保护规则监控此位置中的这个名称。
+ReadOnlyExplanation	PowerOw shows this entry for inspection.	PowerOw pokazuje ten wpis do wglądu.	PowerOw zeigt diesen Eintrag zur Ansicht an.	PowerOw показывает эту запись для просмотра.	PowerOw prikazuje ovaj unos za pregled.	PowerOw affiche cette entrée pour consultation.	PowerOw muestra esta entrada para consulta.	PowerOw 提供此启动项以供查看。
+PackagedExplanation	Open Windows startup settings to change this packaged app’s startup permission.	Otwórz Ustawienia autostartu Windows, aby zmienić zgodę na uruchamianie tej aplikacji pakietowej.	Öffnen Sie die Windows-Autostarteinstellungen, um die Autostartberechtigung dieser App zu ändern.	Откройте параметры автозагрузки Windows, чтобы изменить разрешение на запуск пакетного приложения.	Otvorite postavke pokretanja u Windowsu za promjenu dozvole pokretanja ove aplikacije.	Ouvrez les paramètres de démarrage de Windows pour modifier l’autorisation de cette application empaquetée.	Abre la configuración de inicio de Windows para cambiar el permiso de inicio de esta aplicación empaquetada.	请打开 Windows 启动设置以更改此打包应用的启动权限。
+Refresh	&Refresh	&Odśwież	&Aktualisieren	&Обновить	&Osvježi	&Actualiser	&Actualizar	刷新(&R)
+History	&Activity log	&Dziennik działań	&Aktivitätsprotokoll	&Журнал действий	&Dnevnik aktivnosti	&Journal d’activité	&Registro de actividad	活动日志
+EmptyHistory	This scope has no recorded actions yet.	W tym zakresie nie ma jeszcze zapisanych działań.	In diesem Bereich wurden noch keine Aktionen protokolliert.	В этой области пока нет записанных действий.	Za ovaj opseg još nema zabilježenih radnji.	Aucune action n’a encore été enregistrée dans cette portée.	Aún no hay acciones registradas en este ámbito.	此范围目前没有活动记录。
+Pause	Pa&use protection	W&strzymaj ochronę	Schutz &anhalten	&Приостановить защиту	&Pauziraj zaštitu	Mettre la protection en &pause	&Pausar la protección	暂停保护(&P)
+Resume	Res&ume protection	W&znów ochronę	Schutz &fortsetzen	&Возобновить защиту	&Nastavi zaštitu	&Reprendre la protection	&Reanudar la protección	恢复保护(&P)
+ProtectionPaused	Protection paused	Ochrona wstrzymana	Schutz angehalten	Защита приостановлена	Zaštita je pauzirana	Protection en pause	Protección en pausa	保护已暂停
+ProtectionOn	Protection enabled	Ochrona włączona	Schutz aktiviert	Защита включена	Zaštita je uključena	Protection activée	Protección activada	保护已启用
+ServiceRunning	System protection service is running	Usługa ochrony systemu działa	Systemschutzdienst wird ausgeführt	Служба защиты системы работает	Servis zaštite sustava radi	Le service de protection du système est en cours d’exécution	El servicio de protección del sistema está en ejecución	系统保护服务正在运行
+ServiceStopped	System protection service is stopped	Usługa ochrony systemu jest zatrzymana	Systemschutzdienst ist angehalten	Служба защиты системы остановлена	Servis zaštite sustava je zaustavljen	Le service de protection du système est arrêté	El servicio de protección del sistema está detenido	系统保护服务已停止
+FocusSearch	Go to &search	Przejdź do &wyszukiwania	Zur &Suche	Перейти к &поиску	Prijeđi na &pretragu	Aller à la &recherche	Ir a la &búsqueda	转到搜索
+FocusDetails	Read &details	Przeczytaj &szczegóły	&Details lesen	Читать &сведения	Pročitaj &detalje	Lire les &détails	Leer &detalles	阅读详情
+SelectAll	Select all visible entries	Zaznacz wszystkie widoczne wpisy	Alle sichtbaren Einträge auswählen	Выбрать все видимые записи	Odaberi sve vidljive unose	Sélectionner toutes les entrées visibles	Seleccionar todas las entradas visibles	选择所有可见启动项
+HideWindows	Hide Windows components	Ukryj składniki Windows	Windows-Komponenten ausblenden	Скрыть компоненты Windows	Sakrij komponente Windowsa	Masquer les composants Windows	Ocultar componentes de Windows	隐藏 Windows 组件
+Keyboard	&Keyboard help	&Obsługa klawiaturą	&Tastaturhilfe	&Управление с клавиатуры	&Pomoć za tipkovnicu	Aide au &clavier	Ayuda del &teclado	键盘帮助
+Inspect	&File and signature details…	&Plik i podpis…	&Datei und Signatur…	&Файл и подпись…	&Datoteka i potpis…	&Fichier et signature…	&Archivo y firma…	文件和签名详情…
+CopyDetails	&Copy details	&Kopiuj szczegóły	Details &kopieren	&Копировать сведения	&Kopiraj detalje	&Copier les détails	&Copiar detalles	复制详情
+OpenLocation	Open &location…	Otwórz &lokalizację…	&Speicherort öffnen…	Открыть &расположение…	Otvori &lokaciju…	Ouvrir l’&emplacement…	Abrir &ubicación…	打开位置…
+Publisher	Verified signer	Zweryfikowany podpisujący	Verifizierter Unterzeichner	Проверенный подписант	Provjereni potpisnik	Signataire vérifié	Firmante verificado	已验证的签名者
+Language	Interface language	Język interfejsu	Oberflächensprache	Язык интерфейса	Jezik sučelja	Langue de l’interface	Idioma de la interfaz	界面语言
+WindowsLanguage	Follow Windows language	Zgodny z językiem Windows	Windows-Sprache übernehmen	Как в Windows	Prema jeziku Windowsa	Suivre la langue de Windows	Usar el idioma de Windows	跟随 Windows 语言
+Theme	Appearance theme	Motyw interfejsu	Design	Тема оформления	Tema sučelja	Thème d’apparence	Tema de apariencia	外观主题
+ThemeSystem	Follow Windows theme	Zgodny z motywem Windows	Windows-Design übernehmen	Как в Windows	Prema temi Windowsa	Suivre le thème de Windows	Usar el tema de Windows	跟随 Windows 主题
+ThemeLight	Light	Jasny	Hell	Светлая	Svijetla	Clair	Claro	浅色
+ThemeDark	Dark	Ciemny	Dunkel	Тёмная	Tamna	Sombre	Oscuro	深色
+StartWithWindows	Start PowerOw at Windows sign-in	Uruchamiaj PowerOw przy logowaniu do Windows	PowerOw bei der Windows-Anmeldung starten	Запускать PowerOw при входе в Windows	Pokreni PowerOw pri prijavi u Windows	Lancer PowerOw à la connexion à Windows	Iniciar PowerOw al iniciar sesión en Windows	登录 Windows 时启动 PowerOw
+EnableProtection	Protect startup entries	Pilnuj wpisów autostartu	Autostarteinträge schützen	Защищать записи автозагрузки	Zaštiti unose za automatsko pokretanje	Protéger les entrées de démarrage	Proteger las entradas de inicio	保护启动项
+Ok	OK	OK	OK	ОК	U redu	OK	Aceptar	确定
+Cancel	Cancel	Anuluj	Abbrechen	Отмена	Odustani	Annuler	Cancelar	取消
+Close	Close	Zamknij	Schließen	Закрыть	Zatvori	Fermer	Cerrar	关闭
+Errors	PowerOw — operation result	PowerOw — Wynik operacji	PowerOw — Ergebnis	PowerOw — Результат операции	PowerOw — Rezultat radnje	PowerOw — Résultat de l’opération	PowerOw — Resultado de la operación	PowerOw — 操作结果

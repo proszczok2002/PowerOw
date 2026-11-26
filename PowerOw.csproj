@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+    <Product>PowerOw</Product>
+    <Company>Proszczok</Company>
+    <Description>PowerOw</Description>
+    <StartupHookSupport>false</StartupHookSupport>
+    <ApplicationManifest>assets/app.manifest</ApplicationManifest>
+    <ApplicationIcon>assets/PowerOw.ico</ApplicationIcon>
+    <DefaultItemExcludes>$(DefaultItemExcludes);niepotrzebne/**</DefaultItemExcludes>
+  </PropertyGroup>
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Runtime.StartupHookProvider.IsSupported" Value="false" />
+    <Compile Remove="installer/**;tests/**;tools/**;robocze/**" />
+    <EmbeddedResource Include="assets/PowerOw.ico" LogicalName="PowerOw.Icon" />
+    <EmbeddedResource Include="assets/Translations/*.tsv" LogicalName="PowerOw.%(Filename)%(Extension)" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.15" />
+    <InternalsVisibleTo Include="PowerOw.Checks" />
+  </ItemGroup>
+</Project>
+

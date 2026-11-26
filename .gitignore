@@ -1,0 +1,7 @@
+bin/
+obj/
+niepotrzebne/
+dist/*
+/robocze/
+/WORK_STATE.md
+
