@@ -109,6 +109,8 @@ internal sealed class TrayIcon : NativeWindow, IDisposable
             point = new Point(rectangle.Left, rectangle.Top);
         _ = SetForegroundWindow(Handle);
         commands.Show(point, ToolStripDropDownDirection.AboveRight);
+        // The notification window can retain keyboard focus when the main window is hidden.
+        commands.Focus();
         _ = PostMessage(Handle, 0, IntPtr.Zero, IntPtr.Zero);
     }
 

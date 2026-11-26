@@ -27,10 +27,14 @@ internal static class Dialogs
         return result;
     }
 
-    internal static SettingsChoice? Settings(Form owner, TextCatalog text, Preferences current, bool logon, bool protection,
+    internal static SettingsChoice? Settings(Form? owner, TextCatalog text, Preferences current, bool logon, bool protection,
         Func<Form, Task> checkUpdate)
     {
-        using var form = new Dialog(text["SettingsTitle"], current.Theme, new Size(575, 460));
+        using var form = new Dialog(text["SettingsTitle"], current.Theme, new Size(575, 460))
+        {
+            StartPosition = owner is null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent,
+            ShowInTaskbar = owner is null
+        };
         var language = Choices(text["Language"], new[] { text["WindowsLanguage"] }.Concat(TextCatalog.Languages));
         var themes = Choices(text["Theme"], [text["ThemeSystem"], text["ThemeLight"], text["ThemeDark"]]);
         var autoStart = new SpokenCheckBox { Text = text["StartWithWindows"], AccessibleName = text["StartWithWindows"],

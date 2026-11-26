@@ -352,13 +352,39 @@ try {
             NativeKey @(0x5D)
             Expect-NewSpeech $before "'Otwórz PowerOw'"
             Write-Result 'First tray command spoken immediately after the context-menu key.'
-            foreach ($commandName in "'Odśwież'","'(Wstrzymaj|Wznów) ochronę'","'Zakończ PowerOw'") {
+            foreach ($commandName in "'Odśwież'","'Ustawienia","'Sprawdź aktualizacje'","'(Wstrzymaj|Wznów) ochronę'","'Zakończ PowerOw'") {
                 $before = @(Get-Content -LiteralPath $speech).Count
                 Press '{DOWN}'
                 Expect-NewSpeech $before $commandName
             }
             Press '{ESC}'
             $null = Expect-Focus 'PowerOw'
+            NativeKey @(0x5D)
+            Press '{DOWN}'
+            Press '{DOWN}'
+            Press '{ENTER}'
+            $null = Expect-Focus '^Język interfejsu$'
+            Wait-Speech 'Ustawienia PowerOw'
+            if (Window-With '^PowerOw v[0-9]') { throw 'Tray settings opened the main window.' }
+            Press '{ESC}'
+            $null = Wait-For { -not (Window-With '^Ustawienia PowerOw$') } 'settings closed'
+            Write-Result 'Settings opened from the tray with focus on the language and kept the main window hidden.'
+
+            NativeKey @(0x5B,0x42)
+            $null = Find-TrayIcon
+            NativeKey @(0x5D)
+            Press '{DOWN}'
+            Press '{DOWN}'
+            Press '{DOWN}'
+            Press '{ENTER}'
+            $null = Wait-For { Window-With '^Aktualizacja PowerOw$' } 'tray update result'
+            Wait-Speech 'Masz najnowszą dostępną wersję PowerOw.'
+            if (Window-With '^PowerOw v[0-9]') { throw 'Tray update check opened the main window.' }
+            Press '{ENTER}'
+            Write-Result 'NVDA read the result of a public update check from the tray.'
+
+            NativeKey @(0x5B,0x42)
+            $null = Find-TrayIcon
             Press '{ENTER}'
             $null = Wait-For { Window-With '^PowerOw v[0-9]' } 'window reopened directly from tray'
             Write-Result 'Keyboard invoked tray menu, focus immediately reached first item, Escape returned, Enter reopened app.'
@@ -407,7 +433,13 @@ try {
             Write-Result 'Canceling Windows UAC left the installed version unchanged.'
         }
         'UpdateRetry' {
-            $null = Update-Fixture 'fixture-session'
+            if ($ExistingUpdateOffer) {
+                $null = Expect-UpdateOffer
+                if (Window-With '^PowerOw v[0-9]') { throw 'The background offer opened the main window.' }
+                Press '{ENTER}'
+                $null = Wait-For { -not (Window-With '^Aktualizacja PowerOw$') } 'background offer dismissed'
+                Write-Result 'NVDA read the background offer, and the default No dismissed it before the manual check.'
+            }
             Open-Application
             NativeKey @(0x11,0xBC)
             $null = Expect-Focus '^Język interfejsu$'
@@ -419,7 +451,6 @@ try {
             Write-Result 'NVDA read both download and installer progress.'
         }
         'VerifyUpdate' {
-            $null = Update-Fixture 'fixture-session'
             $dll = Get-Item -LiteralPath (Join-Path $program 'PowerOw.dll')
             if ($dll.VersionInfo.ProductVersion -notmatch '^1\.0\.1(?:\b|$)') { throw 'Updated application version is missing.' }
             if ((Get-Service PowerOwGuard).Status -ne 'Running') { throw 'Protection service not running after update.' }

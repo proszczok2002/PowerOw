@@ -62,6 +62,12 @@ internal sealed class DesktopSession : ApplicationContext
     [
         (text["TrayOpen"], () => ShowWindow(refresh: true)),
         (text["Refresh"], () => ShowWindow(refresh: true)),
+        (text["Settings"], () => _ = window.Settings()),
+        (text["TrayUpdate"], () =>
+        {
+            if (window.ReadyForUpdate)
+                _ = update.CheckNow(window.Visible ? window : null);
+        }),
         (text[paused ? "Resume" : "Pause"], () => { ShowWindow(); _ = window.TogglePause(); }),
         (text["Exit"], ExitThread)
     ];

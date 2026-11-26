@@ -596,15 +596,15 @@ internal sealed class MainForm : Form
         namedItems["Pause"].Text = label;
     }
 
-    private async Task Settings()
+    internal async Task Settings()
     {
-        if (busy)
+        if (!ReadyForUpdate)
             return;
         SetBusy(true);
         try
         {
             var (logon, paused) = await Task.Run(() => (Tasks.LogonEnabled(), engine.ReadPaused()));
-            if (Dialogs.Settings(this, text, preferences, logon, !paused, CheckUpdate) is not { } chosen)
+            if (Dialogs.Settings(Visible ? this : null, text, preferences, logon, !paused, CheckUpdate) is not { } chosen)
                 return;
             await Task.Run(() =>
             {
@@ -717,7 +717,7 @@ internal sealed class MainForm : Form
     }
 
     internal void ShowProblem(Exception error) =>
-        MessageBox.Show(this, text["Problem." + Faults.From(error)], text["Errors"], MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        MessageBox.Show(Visible ? this : null, text["Problem." + Faults.From(error)], text["Errors"], MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
     private void EntryKeyDown(object? sender, KeyEventArgs e)
     {

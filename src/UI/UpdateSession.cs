@@ -75,7 +75,7 @@ internal sealed class UpdateSession(MainForm window, Preferences preferences, Up
         finally { working = false; }
     }
 
-    internal async Task CheckNow(Form owner)
+    internal async Task CheckNow(Form? owner)
     {
         var text = new TextCatalog(settings.Language);
         if (working)
@@ -87,7 +87,7 @@ internal sealed class UpdateSession(MainForm window, Preferences preferences, Up
         try
         {
             var update = await updates.Check(stop.Token);
-            if (disposed || owner.IsDisposed)
+            if (disposed || owner?.IsDisposed == true)
                 return;
             pending = null;
             next = DateTimeOffset.UtcNow.AddMinutes(settings.UpdateIntervalMinutes);
@@ -98,7 +98,7 @@ internal sealed class UpdateSession(MainForm window, Preferences preferences, Up
         }
         catch (Exception error) when (Expected(error))
         {
-            if (!disposed && !owner.IsDisposed)
+            if (!disposed && owner?.IsDisposed != true)
                 Message(owner, text, "UpdateCheckFailed", MessageBoxIcon.Warning);
         }
         finally { working = false; }

@@ -16,6 +16,8 @@ W **Ustawieniach PowerOw** wybierz **Uruchamiaj PowerOw przy logowaniu do Window
 
 ### Aktualizacje
 
+Wydanie **1.01** (tag `v1.0.1`) służy do sprawdzenia aktualizacji z publicznego PowerOw v1.0. W v1.0 wybierz **Ustawienia → Sprawdź aktualizacje teraz** albo poczekaj na sprawdzenie w tle przy włączonej ochronie. W pytaniu i po instalacji zobaczysz numer **v1.0.1**. [Wydanie 1.01](https://github.com/proszczok2002/PowerOw/releases/tag/v1.0.1)
+
 Przy włączonej ochronie PowerOw sprawdza najnowsze stabilne wydanie z GitHuba także w zasobniku i pokazuje okno **Tak / Nie**. Jeśli Windows pozostawi fokus w bieżącej aplikacji, do pytania o aktualizację przejdziesz przez **Alt+Tab**. Przy wstrzymanej ochronie sprawdzenie następuje po otwarciu głównego okna. W ustawieniach możesz wyłączyć automatyczne sprawdzanie, zmienić częstotliwość sprawdzania w tle (domyślnie 15 minut) lub wybrać **Sprawdź aktualizacje teraz**.
 
 Po wybraniu **Tak** otworzy się okno postępu. Tab prowadzi przez stan pobierania, pasek postępu i przycisk **Anuluj**. PowerOw weryfikuje rozmiar i SHA-256 instalatora przed monitem UAC. Po zaakceptowaniu UAC instalator pokazuje postęp i wznawia PowerOw z zachowanymi ustawieniami. Przyciski i okna aktualizacji obsługują klawiaturę. Jeśli potrzebna jest akceptacja nowych warunków składników SDK, uruchom pełny kreator z najnowszego wydania.
@@ -46,7 +48,7 @@ Ochrona dotyczy zapisanej rejestracji autostartu. Może upłynąć kilka sekund 
 
 ### Zasobnik
 
-Naciśnij **Windows+B**. Strzałkami znajdź **PowerOw — Ochrona autostartu** lub otwórz **Pokaż ukryte ikony**. **Enter** otwiera okno. Klawisz menu kontekstowego lub **Shift+F10** otwiera polecenia **Otwórz PowerOw**, **Odśwież**, **Wstrzymaj ochronę** lub **Wznów ochronę** oraz **Zakończ PowerOw**. Zamknięcie okna przez **Alt+F4** chowa je do zasobnika. Wybranie **Zakończ PowerOw** zatrzymuje ochronę konta do kolejnego uruchomienia. Systemowa usługa ma własny stan ochrony. [Powiadomienia i zasobnik Windows](https://learn.microsoft.com/windows/win32/shell/notification-area)
+Naciśnij **Windows+B**. Strzałkami znajdź **PowerOw — Ochrona autostartu** lub otwórz **Pokaż ukryte ikony**. **Enter** otwiera okno. Klawisz menu kontekstowego lub **Shift+F10** otwiera polecenia **Otwórz PowerOw**, **Odśwież**, **Ustawienia…**, **Sprawdź aktualizacje**, **Wstrzymaj ochronę** lub **Wznów ochronę** oraz **Zakończ PowerOw**. Ustawienia i wynik sprawdzania aktualizacji możesz otworzyć bezpośrednio z zasobnika. Zamknięcie okna przez **Alt+F4** chowa je do zasobnika. Wybranie **Zakończ PowerOw** zatrzymuje ochronę konta do kolejnego uruchomienia. Systemowa usługa ma własny stan ochrony. [Powiadomienia i zasobnik Windows](https://learn.microsoft.com/windows/win32/shell/notification-area)
 
 ### Dezinstalacja
 
@@ -79,7 +81,7 @@ Review and accept the Windows SDK component terms on first installation. Compare
 
 Use **Ctrl+F** to search, **F5** to refresh, and **F6** to read details. **Ctrl+D** disables, **Delete** removes, **Ctrl+E** restores or enables, **Ctrl+G** disables and protects, and **Ctrl+Shift+G** removes and protects. **Ctrl+H** opens the activity log. **Ctrl+,** opens settings, where you can control logon startup and protection independently.
 
-Open the notification area with **Windows+B**, find PowerOw or the hidden icons, and use **Enter** or **Shift+F10**. Uninstall through Windows Settings. This removes the installation directory, its system backups, the service, the PowerOw logon task and shortcuts. Use Restore before uninstalling if you need the system backups.
+Open the notification area with **Windows+B** and find PowerOw or the hidden icons. Press **Enter** to open the main window or **Shift+F10** for commands such as **Settings…** and **Check for updates**. Uninstall through Windows Settings. This removes the installation directory, its system backups, the service, the PowerOw logon task and shortcuts. Use Restore before uninstalling if you need the system backups.
 
 With protection enabled, PowerOw checks for stable releases in the background every 15 minutes by default and asks before updating. With protection paused, it checks when you open the main window. Change the interval, disable automatic checks or use **Check for updates now** in Settings. Select **Yes**, follow the accessible download progress and approve Windows UAC. Installation then shows progress and restarts PowerOw with your settings.
 
@@ -91,7 +93,7 @@ PowerOw verwaltet den Windows-Autostart und kann Einträge deaktivieren, entfern
 
 Mit aktivem Schutz prüft PowerOw standardmäßig alle 15 Minuten im Hintergrund auf Updates. Bei pausiertem Schutz erfolgt die Prüfung beim Öffnen des Hauptfensters. In den Einstellungen können Sie das Intervall ändern, die Automatik abschalten oder **Jetzt nach Updates suchen** wählen. Nach **Ja** zeigt PowerOw den Downloadfortschritt an. Bestätigen Sie die Windows-Abfrage für Administratorrechte, um die Installation zu starten.
 
-Mit **Strg+F** suchen Sie, mit **F6** lesen Sie Details und mit **Windows+B** erreichen Sie den Infobereich. Über **Unterstützung und Kontakt** erreichen Sie die Projektseite, Fehlermeldungen und freiwillige Spenden. Deinstallieren Sie PowerOw über **Einstellungen → Apps**. [Problem melden](https://github.com/proszczok2002/PowerOw/issues) [MIT-Lizenz](LICENSE)
+Mit **Strg+F** suchen Sie, mit **F6** lesen Sie Details und mit **Windows+B** erreichen Sie den Infobereich. Öffnen Sie am PowerOw-Symbol mit **Umschalt+F10** das Menü mit **Einstellungen…** und **Nach Updates suchen**. Über **Unterstützung und Kontakt** erreichen Sie die Projektseite, Fehlermeldungen und freiwillige Spenden. Deinstallieren Sie PowerOw über **Einstellungen → Apps**. [Problem melden](https://github.com/proszczok2002/PowerOw/issues) [MIT-Lizenz](LICENSE)
 
 ## Русский
 
@@ -99,7 +101,7 @@ PowerOw управляет автозагрузкой Windows. Записи мо
 
 При включённой защите PowerOw по умолчанию проверяет обновления в фоне каждые 15 минут. При приостановленной защите проверка выполняется при открытии главного окна. В настройках можно изменить интервал, отключить автоматическую проверку или проверить обновления вручную. После ответа **Да** PowerOw показывает ход загрузки. Для начала установки подтвердите запрос Windows на права администратора.
 
-**Ctrl+F** открывает поиск, **F6** переводит к подробностям, **Windows+B** — в область уведомлений. В разделе **Поддержка и контакты** есть ссылки на проект, сообщения о проблемах и добровольную поддержку. Удаление доступно в параметрах Windows в разделе приложений. [Сообщить о проблеме](https://github.com/proszczok2002/PowerOw/issues) [Лицензия MIT](LICENSE)
+**Ctrl+F** открывает поиск, **F6** переводит к подробностям, **Windows+B** — в область уведомлений. Выберите значок PowerOw и нажмите **Shift+F10**, чтобы открыть меню с пунктами **Настройки…** и **Проверить обновления**. В разделе **Поддержка и контакты** есть ссылки на проект, сообщения о проблемах и добровольную поддержку. Удаление доступно в параметрах Windows в разделе приложений. [Сообщить о проблеме](https://github.com/proszczok2002/PowerOw/issues) [Лицензия MIT](LICENSE)
 
 ## Hrvatski
 
@@ -107,7 +109,7 @@ PowerOw upravlja automatskim pokretanjem u sustavu Windows. Unose možete onemog
 
 Kad je zaštita uključena, PowerOw zadano provjerava ažuriranja u pozadini svakih 15 minuta. Kad je zaštita pauzirana, provjerava ih pri otvaranju glavnog prozora. U postavkama možete promijeniti interval, isključiti automatsku provjeru ili odmah provjeriti ažuriranja. Odaberite **Da** za preuzimanje i potvrdite Windowsov upit za početak instalacije.
 
-**Ctrl+F** otvara pretraživanje, **F6** pojedinosti, a **Windows+B** područje obavijesti. **Podrška i kontakt** sadrži poveznice na projekt, prijavu problema i dobrovoljnu podršku. Program možete deinstalirati u postavkama sustava Windows. [Prijavi problem](https://github.com/proszczok2002/PowerOw/issues) [Licenca MIT](LICENSE)
+**Ctrl+F** otvara pretraživanje, **F6** pojedinosti, a **Windows+B** područje obavijesti. Odaberite ikonu PowerOw i pritisnite **Shift+F10** za izbornik s naredbama **Postavke…** i **Provjeri ažuriranja**. **Podrška i kontakt** sadrži poveznice na projekt, prijavu problema i dobrovoljnu podršku. Program možete deinstalirati u postavkama sustava Windows. [Prijavi problem](https://github.com/proszczok2002/PowerOw/issues) [Licenca MIT](LICENSE)
 
 ## Français
 
@@ -115,7 +117,7 @@ PowerOw gère les entrées de démarrage de Windows. Vous pouvez les désactiver
 
 Lorsque la protection est active, PowerOw recherche les mises à jour en arrière-plan toutes les 15 minutes par défaut. En pause, la recherche a lieu à l’ouverture de la fenêtre principale. Modifiez l’intervalle, désactivez la recherche automatique ou lancez une recherche immédiate dans les paramètres. Choisissez **Oui**, suivez la progression du téléchargement, puis acceptez la demande d’administration de Windows pour lancer l’installation.
 
-**Ctrl+F** lance la recherche, **F6** ouvre les détails et **Windows+B** donne accès à la zone de notification. **Soutien et contact** donne accès au projet, aux signalements et aux dons volontaires. La désinstallation se fait dans les paramètres de Windows. [Signaler un problème](https://github.com/proszczok2002/PowerOw/issues) [Licence MIT](LICENSE)
+**Ctrl+F** lance la recherche, **F6** ouvre les détails et **Windows+B** donne accès à la zone de notification. Sur l’icône de PowerOw, appuyez sur **Maj+F10** pour ouvrir le menu avec **Paramètres…** et **Rechercher les mises à jour**. **Soutien et contact** donne accès au projet, aux signalements et aux dons volontaires. La désinstallation se fait dans les paramètres de Windows. [Signaler un problème](https://github.com/proszczok2002/PowerOw/issues) [Licence MIT](LICENSE)
 
 ## Español
 
@@ -123,7 +125,7 @@ PowerOw gestiona las entradas de inicio de Windows. Permite desactivarlas, elimi
 
 Con la protección activa, PowerOw busca actualizaciones en segundo plano cada 15 minutos de forma predeterminada. Con la protección en pausa, busca al abrir la ventana principal. En la configuración puedes cambiar el intervalo, desactivar la búsqueda automática o buscar ahora. Elige **Sí**, revisa el progreso de descarga y confirma la solicitud de administrador de Windows para instalar.
 
-**Ctrl+F** abre la búsqueda, **F6** los detalles y **Windows+B** el área de notificación. **Apoyo y contacto** enlaza con el proyecto, los informes de problemas y las donaciones voluntarias. Desinstala el programa desde la configuración de Windows. [Informar de un problema](https://github.com/proszczok2002/PowerOw/issues) [Licencia MIT](LICENSE)
+**Ctrl+F** abre la búsqueda, **F6** los detalles y **Windows+B** el área de notificación. Selecciona el icono de PowerOw y pulsa **Mayús+F10** para abrir el menú con **Configuración…** y **Buscar actualizaciones**. **Apoyo y contacto** enlaza con el proyecto, los informes de problemas y las donaciones voluntarias. Desinstala el programa desde la configuración de Windows. [Informar de un problema](https://github.com/proszczok2002/PowerOw/issues) [Licencia MIT](LICENSE)
 
 ## 简体中文
 
@@ -131,4 +133,4 @@ PowerOw 用于管理 Windows 启动项。您可以禁用、删除和恢复启动
 
 保护已启用时，PowerOw 默认每隔 15 分钟在后台检查更新。暂停保护后，打开主窗口时才会检查。您可以在设置中更改间隔、关闭自动检查或立即手动检查。选择**是**后，您可以查看下载进度。下载验证成功后，请在 Windows 对话框中确认管理员权限以开始安装。
 
-按 **Ctrl+F** 搜索，按 **F6** 查看详细信息，按 **Windows+B** 前往通知区域。**支持与联系**提供项目、问题反馈及自愿捐助的链接。可从 Windows 设置卸载程序。 [报告问题](https://github.com/proszczok2002/PowerOw/issues) [MIT 许可证](LICENSE)
+按 **Ctrl+F** 搜索，按 **F6** 查看详细信息，按 **Windows+B** 前往通知区域。选中 PowerOw 图标后按 **Shift+F10**，即可打开包含**设置…**和**检查更新**的菜单。**支持与联系**提供项目、问题反馈及自愿捐助的链接。可从 Windows 设置卸载程序。 [报告问题](https://github.com/proszczok2002/PowerOw/issues) [MIT 许可证](LICENSE)
