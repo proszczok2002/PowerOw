@@ -12,30 +12,7 @@ internal sealed class StartupEngine(StartupScope scope, StateStore store, Startu
 
     internal Inventory Load()
     {
-        var scan = new Scan();
-        RegistryEntries.Enumerate(scan, IsUser);
-        StartupFolders.Enumerate(scan, IsUser);
-        Tasks.Enumerate(scan, applicationsOnly);
-        Services.Enumerate(scan, applicationsOnly);
-        if (!applicationsOnly)
-            ExtendedEntries.Registry(scan, IsUser, profiles: !IsUser);
-        if (!IsUser)
-        {
-            if (!applicationsOnly)
-                ExtendedEntries.Wmi(scan);
-            PackagedEntries.Enumerate(scan, AccountAccess.Sid);
-        }
-        if (account is not null)
-        {
-            AccountAccess.Run(() =>
-            {
-                RegistryEntries.Enumerate(scan, includeUser: true, onlyUser: true);
-                StartupFolders.Enumerate(scan, includeUser: true, onlyUser: true);
-                if (!applicationsOnly)
-                    ExtendedEntries.Registry(scan, includeUser: true, profiles: false, onlyUser: true);
-                return true;
-            });
-        }
+        var scan = ScanEntries();
         var (state, problem) = ReadState();
         Problem? accountProblem = null;
         if (account is not null)
@@ -73,19 +50,54 @@ internal sealed class StartupEngine(StartupScope scope, StateStore store, Startu
         catch (Exception error) when (Faults.Expected(error)) { return (new StartupState(), Faults.From(error)); }
     }
 
-    internal static IReadOnlyList<StartupEntry> QuickLogonEntries()
+    internal Scan ScanStartupApplications() => ScanEntries(startupOnly: true);
+
+    private Scan ScanEntries(bool startupOnly = false)
     {
         var scan = new Scan();
-        RegistryEntries.Enumerate(scan, includeUser: false);
-        StartupFolders.Enumerate(scan, includeUser: false);
-        if (AccountAccess.Available)
+        bool apps = applicationsOnly || startupOnly;
+        RegistryEntries.Enumerate(scan, IsUser);
+        StartupFolders.Enumerate(scan, IsUser);
+        Tasks.Enumerate(scan, apps, startupOnly);
+        Services.Enumerate(scan, apps, startupOnly);
+        if (!apps)
+            ExtendedEntries.Registry(scan, IsUser, profiles: !IsUser);
+        if (!IsUser)
+        {
+            if (!apps)
+                ExtendedEntries.Wmi(scan);
+            PackagedEntries.Enumerate(scan, AccountAccess.Sid);
+        }
+        if (account is not null)
+        {
             AccountAccess.Run(() =>
             {
                 RegistryEntries.Enumerate(scan, includeUser: true, onlyUser: true);
                 StartupFolders.Enumerate(scan, includeUser: true, onlyUser: true);
+                if (!apps)
+                    ExtendedEntries.Registry(scan, includeUser: true, profiles: false, onlyUser: true);
                 return true;
             });
-        return scan.Entries;
+        }
+        return scan;
+    }
+
+    internal void RecordDiscoveries(IReadOnlyList<StartupEntry> entries)
+    {
+        if (entries.Count == 0)
+            return;
+        if (account is not null)
+        {
+            AccountAccess.Run(() => { account.RecordDiscoveries(entries); return true; });
+            return;
+        }
+        store.Locked(state =>
+        {
+            foreach (var entry in entries)
+                StateStore.Log(state, ActivityKind.Detected, entry);
+            store.Save(state);
+            return true;
+        });
     }
 
     private static EntryState StateFor(SavedEntry saved) => saved.Mode switch

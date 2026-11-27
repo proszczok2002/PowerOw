@@ -10,7 +10,7 @@ internal sealed class DesktopSession : ApplicationContext
     private readonly RegisteredWaitHandle activation;
     private readonly SynchronizationContext dispatcher;
     private TextCatalog text;
-    private Dictionary<string, string>? knownEntries;
+    private StartupDiscovery? discovery;
     private int nextScan;
     private bool paused;
     private bool allowClose;
@@ -100,37 +100,55 @@ internal sealed class DesktopSession : ApplicationContext
         {
             var result = await Task.Run(() =>
             {
-                int blocked = engine.GuardAccount();
-                var logon = scan ? StartupEngine.QuickLogonEntries() : null;
-                return (blocked, logon, engine.ReadPaused());
+                int blocked = 0;
+                bool? guardPaused = null;
+                Problem? problem = null;
+                try
+                {
+                    blocked = engine.GuardAccount();
+                    guardPaused = engine.ReadPaused();
+                }
+                catch (Exception error) when (Faults.Expected(error)) { problem = Faults.From(error); }
+
+                IReadOnlyList<StartupEntry> added = [];
+                if (guardPaused == true)
+                    discovery = null;
+                else if (guardPaused == false && (scan || discovery is null))
+                {
+                    try
+                    {
+                        var startup = engine.ScanStartupApplications();
+                        discovery ??= new StartupDiscovery();
+                        added = discovery.Observe(startup);
+                        engine.RecordDiscoveries(added);
+                    }
+                    catch (Exception error) when (Faults.Expected(error)) { problem ??= Faults.From(error); }
+                }
+                return (blocked, guardPaused, added, problem);
             });
             if (allowClose)
                 return;
-            paused = result.Item3;
-            update.ProtectionChanged(!paused);
-            _ = update.Tick();
-            if (result.blocked > 0)
+            if (result.guardPaused is bool value)
             {
-                tray?.Notify("PowerOw", text.Format("BlockedNotice", result.blocked));
+                paused = value;
+                update.ProtectionChanged(!paused);
+                _ = update.Tick();
+            }
+            var notices = new List<string>(2);
+            if (result.added.Count == 1)
+                notices.Add(text.Format("NewSingleNotice", result.added[0].Name));
+            else if (result.added.Count > 1)
+                notices.Add(text.Format("NewNotice", result.added.Count, string.Join(", ", result.added.Take(4).Select(entry => entry.Name))));
+            if (result.blocked > 0)
+                notices.Add(text.Format("BlockedNotice", result.blocked));
+            if (notices.Count > 0)
+            {
+                tray?.Notify("PowerOw", string.Join(Environment.NewLine, notices), sound: result.added.Count > 0);
                 if (window.Visible)
                     await window.RefreshAsync(announce: false);
             }
-            if (result.logon is not null)
-            {
-                var current = result.logon.DistinctBy(entry => entry.Id.Key, StringComparer.OrdinalIgnoreCase)
-                    .ToDictionary(entry => entry.Id.Key, entry => entry.Name, StringComparer.OrdinalIgnoreCase);
-                if (knownEntries is not null)
-                {
-                    var added = current.Where(pair => !knownEntries.ContainsKey(pair.Key)).ToArray();
-                    if (added.Length > 0)
-                    {
-                        tray?.Notify("PowerOw", text.Format("NewNotice", added.Length, string.Join(", ", added.Take(4).Select(pair => pair.Value))));
-                        if (window.Visible)
-                            await window.RefreshAsync(announce: false);
-                    }
-                }
-                knownEntries = current;
-            }
+            else if (scan && window.Visible && result.problem is { } problem)
+                tray?.Notify("PowerOw", text["Problem." + problem]);
         }
         catch (Exception error) when (Faults.Expected(error))
         {

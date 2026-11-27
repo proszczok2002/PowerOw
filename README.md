@@ -16,7 +16,7 @@ W **Ustawieniach PowerOw** wybierz **Uruchamiaj PowerOw przy logowaniu do Window
 
 ### Aktualizacje
 
-Wydanie **1.01** (tag `v1.0.1`) służy do sprawdzenia aktualizacji z publicznego PowerOw v1.0. W v1.0 wybierz **Ustawienia → Sprawdź aktualizacje teraz** albo poczekaj na sprawdzenie w tle przy włączonej ochronie. W pytaniu i po instalacji zobaczysz numer **v1.0.1**. [Wydanie 1.01](https://github.com/proszczok2002/PowerOw/releases/tag/v1.0.1)
+Wydanie **1.02** rozszerza powiadomienia o nowych wpisach autostartu. Aby przejść z 1.01, wybierz **Sprawdź aktualizacje** w zasobniku albo poczekaj na sprawdzenie w tle przy włączonej ochronie. W pytaniu i po instalacji zobaczysz numer **v1.0.2**. [Wydanie 1.02](https://github.com/proszczok2002/PowerOw/releases/tag/v1.0.2)
 
 Przy włączonej ochronie PowerOw sprawdza najnowsze stabilne wydanie z GitHuba także w zasobniku i pokazuje okno **Tak / Nie**. Jeśli Windows pozostawi fokus w bieżącej aplikacji, do pytania o aktualizację przejdziesz przez **Alt+Tab**. Przy wstrzymanej ochronie sprawdzenie następuje po otwarciu głównego okna. W ustawieniach możesz wyłączyć automatyczne sprawdzanie, zmienić częstotliwość sprawdzania w tle (domyślnie 15 minut) lub wybrać **Sprawdź aktualizacje teraz**.
 
@@ -36,7 +36,7 @@ Domyślny widok **Programy startujące z Windows** obejmuje wpisy logowania, apl
 
 | Źródło | Obsługa w PowerOw |
 | --- | --- |
-| Rejestr `Run` i `RunOnce` bieżącego konta oraz komputera | Wyłączanie, usuwanie, przywracanie i ochrona. Dla komputera odczyt obu widoków rejestru. |
+| Rejestr `Run`, `RunOnce` i `Policies\Explorer\Run` bieżącego konta oraz komputera | Wyłączanie, usuwanie, przywracanie i ochrona edytowalnych wpisów. Wpisy z zasad są widoczne do odczytu. Dla komputera odczyt obu widoków rejestru. |
 | Startup konta i wspólny folder Startup | Te same operacje dla zwykłych plików i skrótów. Kopia zachowuje zawartość pliku. |
 | Harmonogram zadań | Przegląd wyzwalaczy i akcji, wyłączanie i ponowne włączanie zadań spoza chronionych lokalizacji. Usuwanie z kopią XML i uprawnień dla obsługiwanych typów logowania. |
 | Usługi | Wyłączanie i przywracanie trybu startu usług spoza chronionych składników, również z opóźnionym startem. Zmiana dotyczy konfiguracji następnego uruchomienia usługi. |
@@ -45,6 +45,12 @@ Domyślny widok **Programy startujące z Windows** obejmuje wpisy logowania, apl
 **Opóźnij uruchomienie** używa Harmonogramu zadań dla dostępnych lokalnych programów EXE z klucza `Run` bieżącego konta. Wybierz od 5 do 600 sekund. **Przywróć lub włącz** usuwa opóźnienie i odtwarza pierwotną wartość. [Zadania logowania Microsoftu](https://learn.microsoft.com/windows/win32/taskschd/logontrigger)
 
 Ochrona dotyczy zapisanej rejestracji autostartu. Może upłynąć kilka sekund między dodaniem przez inny program a jej usunięciem. Nowa nazwa lub lokalizacja to osobny wpis. Dla konfiguracji oznaczonych jako **Wyłączony w Windows** ustawienia systemu dają dostęp do przełącznika Windows. [Autostart w Windows](https://support.microsoft.com/windows/configure-startup-applications-in-windows-115a420a-0bff-4a6f-90e0-1934c844e473) [Run i RunOnce](https://learn.microsoft.com/windows/win32/setupapi/run-and-runonce-registry-keys)
+
+### Powiadomienia o nowych wpisach
+
+Zaznacz **Pilnuj wpisów autostartu** i zostaw PowerOw uruchomiony. Gdy pojawi się nowy wpis, program wysyła powiadomienie Windows także przy zamkniętym głównym oknie. Sprawdza rejestr, oba foldery Startup, zadania z wyzwalaczem startu lub logowania, automatycznie uruchamiane usługi aplikacji oraz nowe deklaracje `StartupTask` pakietów MSIX/UWP. Sprawdzenie odbywa się mniej więcej co 20 sekund. Przy uruchomieniu PowerOw i wznowieniu ochrony bieżące wpisy są stanem początkowym.
+
+NVDA może odczytać powiadomienie bez przenoszenia fokusu z bieżącej aplikacji. Gdy Windows wyciszy lub ukryje baner, w głównym oknie naciśnij **Ctrl+H**, aby odczytać nazwę i lokalizację wykrytego wpisu. [Powiadomienia Windows](https://learn.microsoft.com/windows/win32/shell/notification-area)
 
 ### Zasobnik
 
@@ -85,6 +91,8 @@ Open the notification area with **Windows+B** and find PowerOw or the hidden ico
 
 With protection enabled, PowerOw checks for stable releases in the background every 15 minutes by default and asks before updating. With protection paused, it checks when you open the main window. Change the interval, disable automatic checks or use **Check for updates now** in Settings. Select **Yes**, follow the accessible download progress and approve Windows UAC. Installation then shows progress and restarts PowerOw with your settings.
 
+While protection is on, PowerOw notifies you of new Registry and Startup folder entries, boot and logon tasks, automatic application services, and newly registered MSIX/UWP startup declarations. It works from the notification area. Use **Ctrl+H** in the main window to read each entry’s name and location.
+
 Use **Support and contact** for the issue tracker, the author’s site and optional donations. Build on Windows using .NET SDK 10 and Inno Setup 6.7.2. [Report a problem](https://github.com/proszczok2002/PowerOw/issues) [Author’s site](https://proszczok.pl/) [MIT license](LICENSE) [Third-party notices](THIRD-PARTY-NOTICES.md)
 
 ## Deutsch
@@ -95,6 +103,8 @@ Mit aktivem Schutz prüft PowerOw standardmäßig alle 15 Minuten im Hintergrund
 
 Mit **Strg+F** suchen Sie, mit **F6** lesen Sie Details und mit **Windows+B** erreichen Sie den Infobereich. Öffnen Sie am PowerOw-Symbol mit **Umschalt+F10** das Menü mit **Einstellungen…** und **Nach Updates suchen**. Über **Unterstützung und Kontakt** erreichen Sie die Projektseite, Fehlermeldungen und freiwillige Spenden. Deinstallieren Sie PowerOw über **Einstellungen → Apps**. [Problem melden](https://github.com/proszczok2002/PowerOw/issues) [MIT-Lizenz](LICENSE)
 
+Bei aktivem Schutz meldet PowerOw neue Autostarteinträge auch aus dem Infobereich. Mit **Strg+H** öffnen Sie das Aktivitätsprotokoll mit Namen und Speicherort der erkannten Einträge.
+
 ## Русский
 
 PowerOw управляет автозагрузкой Windows. Записи можно отключать, удалять, восстанавливать и защищать от повторного добавления. Скачайте `PowerOw-Setup.exe`, сравните контрольную сумму SHA-256 и подтвердите запрос прав администратора. Выберите язык, папку установки и параметры ярлыка, запуска при входе и защиты. Ознакомьтесь с условиями использования компонентов Windows SDK и примите их. [Последний выпуск](https://github.com/proszczok2002/PowerOw/releases/latest)
@@ -102,6 +112,8 @@ PowerOw управляет автозагрузкой Windows. Записи мо
 При включённой защите PowerOw по умолчанию проверяет обновления в фоне каждые 15 минут. При приостановленной защите проверка выполняется при открытии главного окна. В настройках можно изменить интервал, отключить автоматическую проверку или проверить обновления вручную. После ответа **Да** PowerOw показывает ход загрузки. Для начала установки подтвердите запрос Windows на права администратора.
 
 **Ctrl+F** открывает поиск, **F6** переводит к подробностям, **Windows+B** — в область уведомлений. Выберите значок PowerOw и нажмите **Shift+F10**, чтобы открыть меню с пунктами **Настройки…** и **Проверить обновления**. В разделе **Поддержка и контакты** есть ссылки на проект, сообщения о проблемах и добровольную поддержку. Удаление доступно в параметрах Windows в разделе приложений. [Сообщить о проблеме](https://github.com/proszczok2002/PowerOw/issues) [Лицензия MIT](LICENSE)
+
+При включённой защите PowerOw сообщает о новых записях автозагрузки и при работе в области уведомлений. **Ctrl+H** открывает журнал с названиями и расположением обнаруженных записей.
 
 ## Hrvatski
 
@@ -111,6 +123,8 @@ Kad je zaštita uključena, PowerOw zadano provjerava ažuriranja u pozadini sva
 
 **Ctrl+F** otvara pretraživanje, **F6** pojedinosti, a **Windows+B** područje obavijesti. Odaberite ikonu PowerOw i pritisnite **Shift+F10** za izbornik s naredbama **Postavke…** i **Provjeri ažuriranja**. **Podrška i kontakt** sadrži poveznice na projekt, prijavu problema i dobrovoljnu podršku. Program možete deinstalirati u postavkama sustava Windows. [Prijavi problem](https://github.com/proszczok2002/PowerOw/issues) [Licenca MIT](LICENSE)
 
+Dok je zaštita uključena, PowerOw prikazuje obavijesti o novim unosima automatskog pokretanja i kada radi u području obavijesti. Pritisnite **Ctrl+H** za nazive i lokacije otkrivenih unosa u dnevniku aktivnosti.
+
 ## Français
 
 PowerOw gère les entrées de démarrage de Windows. Vous pouvez les désactiver, les supprimer, les restaurer et empêcher leur réapparition. Téléchargez `PowerOw-Setup.exe`, vérifiez son empreinte SHA-256 et acceptez la demande d’autorisation. Choisissez la langue et le dossier, acceptez les conditions des composants du SDK Windows, puis sélectionnez le raccourci, le lancement à l’ouverture de session et la protection. [Dernière version](https://github.com/proszczok2002/PowerOw/releases/latest)
@@ -118,6 +132,8 @@ PowerOw gère les entrées de démarrage de Windows. Vous pouvez les désactiver
 Lorsque la protection est active, PowerOw recherche les mises à jour en arrière-plan toutes les 15 minutes par défaut. En pause, la recherche a lieu à l’ouverture de la fenêtre principale. Modifiez l’intervalle, désactivez la recherche automatique ou lancez une recherche immédiate dans les paramètres. Choisissez **Oui**, suivez la progression du téléchargement, puis acceptez la demande d’administration de Windows pour lancer l’installation.
 
 **Ctrl+F** lance la recherche, **F6** ouvre les détails et **Windows+B** donne accès à la zone de notification. Sur l’icône de PowerOw, appuyez sur **Maj+F10** pour ouvrir le menu avec **Paramètres…** et **Rechercher les mises à jour**. **Soutien et contact** donne accès au projet, aux signalements et aux dons volontaires. La désinstallation se fait dans les paramètres de Windows. [Signaler un problème](https://github.com/proszczok2002/PowerOw/issues) [Licence MIT](LICENSE)
+
+Lorsque la protection est active, PowerOw signale les nouvelles entrées de démarrage même lorsqu’il reste dans la zone de notification. **Ctrl+H** ouvre le journal d’activité avec le nom et l’emplacement des entrées détectées.
 
 ## Español
 
@@ -127,7 +143,11 @@ Con la protección activa, PowerOw busca actualizaciones en segundo plano cada 1
 
 **Ctrl+F** abre la búsqueda, **F6** los detalles y **Windows+B** el área de notificación. Selecciona el icono de PowerOw y pulsa **Mayús+F10** para abrir el menú con **Configuración…** y **Buscar actualizaciones**. **Apoyo y contacto** enlaza con el proyecto, los informes de problemas y las donaciones voluntarias. Desinstala el programa desde la configuración de Windows. [Informar de un problema](https://github.com/proszczok2002/PowerOw/issues) [Licencia MIT](LICENSE)
 
+Con la protección activa, PowerOw avisa de las nuevas entradas de inicio incluso desde el área de notificación. Pulsa **Ctrl+H** para ver el nombre y la ubicación de cada entrada detectada en el registro de actividad.
+
 ## 简体中文
+
+启用保护后，即使 PowerOw 在通知区域后台运行，也会报告新添加的启动项。按 **Ctrl+H** 可在活动日志中查看检测到的启动项名称及其位置。
 
 PowerOw 用于管理 Windows 启动项。您可以禁用、删除和恢复启动项，也可以启用保护以阻止它们重新出现。下载 `PowerOw-Setup.exe` 后，请核对 SHA-256 校验值并确认管理员权限。选择语言和安装目录，接受 Windows SDK 组件条款，然后选择桌面快捷方式、登录时启动和启动项保护。 [最新版本](https://github.com/proszczok2002/PowerOw/releases/latest)
 

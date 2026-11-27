@@ -46,14 +46,16 @@ internal sealed class TrayIcon : NativeWindow, IDisposable
             Add();
     }
 
-    internal void Notify(string heading, string message)
+    internal void Notify(string heading, string message, bool sound = false)
     {
+        if (!added)
+            Add();
         if (!added)
             return;
         var data = Data(0x10 | 0x20);
         data.InfoTitle = Trim(heading, 63);
         data.Info = Trim(message, 255);
-        data.InfoFlags = 1 | 0x10;
+        data.InfoFlags = sound ? 1u : 1u | 0x10; // NIIF_INFO, optionally NIIF_NOSOUND
         _ = ShellNotify(1, ref data);
     }
 

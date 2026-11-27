@@ -28,6 +28,7 @@ internal static partial class Checks
             Translations();
             CatalogAndInterface();
             CheckUpdateBehavior();
+            CheckStartupDiscovery();
             if (args.Contains("--guest"))
                 Fixture();
             Console.WriteLine($"{assertions} checks passed.");
@@ -38,6 +39,46 @@ internal static partial class Checks
             Console.Error.WriteLine(error);
             return 1;
         }
+    }
+
+    private static void CheckStartupDiscovery()
+    {
+        Require(RegistryEntries.Sites.Count(site => site.Scope == StartupScope.Machine &&
+            site.Path.EndsWith(@"\Policies\Explorer\Run", StringComparison.OrdinalIgnoreCase)) == 1,
+            "The shared machine policy startup key is scanned once across WOW64 views");
+        var sources = new[] { StartupKind.Registry, StartupKind.StartupFolder, StartupKind.Task, StartupKind.Service, StartupKind.Packaged };
+        var discovery = new StartupDiscovery();
+        var first = new Scan();
+        first.Entries.AddRange(sources.Select(kind => Entry(kind, "Existing")));
+        first.Unavailable.Add(StartupKind.Packaged);
+        Require(discovery.Observe(first).Count == 0, "The startup baseline is silent");
+
+        var next = new Scan();
+        next.Entries.AddRange(first.Entries);
+        next.Entries.AddRange(sources.Select(kind => Entry(kind, "Added")));
+        next.Entries.Add(Entry(StartupKind.Registry, "ADDED"));
+        next.Entries.Add(Entry(StartupKind.Task, "Windows task") with { WindowsComponent = true });
+        var added = discovery.Observe(next);
+        Require(added.Select(entry => entry.Id.Kind).SequenceEqual(sources.Take(4)),
+            "One alert per new identity in every initialized source, excluding Windows entries");
+        Require(discovery.Observe(next).Count == 0, "An unchanged snapshot does not repeat notifications");
+
+        var partial = new Scan();
+        partial.Entries.AddRange(next.Entries.Where(entry => entry.Id.Kind != StartupKind.Registry));
+        partial.Entries.Add(Entry(StartupKind.Packaged, "New package"));
+        partial.Unavailable.Add(StartupKind.Registry);
+        Require(discovery.Observe(partial).Single().Name == "New package", "A partial scan still observes other sources");
+        partial.Entries.AddRange(next.Entries.Where(entry => entry.Id.Kind == StartupKind.Registry));
+        partial.Unavailable.Clear();
+        Require(discovery.Observe(partial).Count == 0, "A recovered source does not report existing entries as new");
+        partial.Entries.RemoveAll(entry => entry.Id.Kind == StartupKind.Registry && entry.Name.Equals("Added", StringComparison.OrdinalIgnoreCase));
+        Require(discovery.Observe(partial).Count == 0, "Removing an entry is not a new registration");
+        partial.Entries.Add(Entry(StartupKind.Registry, "Added"));
+        Require(discovery.Observe(partial).Single().Name == "Added", "A newly registered entry can be reported after removal");
+
+        static StartupEntry Entry(StartupKind kind, string name) =>
+            new(new EntryId(kind, StartupScope.User, "test", name), name, "Location", "", null,
+                EntryState.Active, EntryActions.None, "revision");
     }
 
     private static void Translations()

@@ -10,7 +10,7 @@ internal enum EntryState { Active, WindowsDisabled, Manual, Disabled, Removed, D
 internal enum SavedMode { Disabled, Removed, Delayed }
 internal enum Change { Disable, Remove, DisableAndGuard, RemoveAndGuard, Restore, Enable, StopGuarding, Delay, ForgetBackup }
 
-internal enum ActivityKind { Disabled, Removed, Reenabled, RuleRemoved, Blocked, Failed, Delayed }
+internal enum ActivityKind { Disabled, Removed, Reenabled, RuleRemoved, Blocked, Failed, Delayed, Detected }
 internal enum Problem
 {
     Changed, Occupied, Unavailable, ReadOnly, AccessDenied, BackupMissing, InvalidStore,

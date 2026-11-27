@@ -1,7 +1,8 @@
 ﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][ValidateSet('Setup','App','Tray','SettingsOff','SettingsOn','PrepareUninstall','ObserveUninstall','VerifyUninstall',
-        'UpdatePaused','UpdateBackground','UpdateRetry','VerifyUpdate','Support')][string]$Stage,
+        'UpdatePaused','UpdateBackground','UpdateRetry','VerifyUpdate','Support','Notifications','StartupSources','VerifyStartupHistory',
+        'NotificationsPaused')][string]$Stage,
     [switch]$ExistingProtectionRule,
     [switch]$UseDefault,
     [switch]$AttachedSetup,
@@ -11,8 +12,11 @@ param(
     [switch]$PauseInstallerProtection,
     [switch]$SkipLaunch,
     [switch]$ExistingUpdateOffer,
+    [switch]$MeasureLegacyNotifications,
     [switch]$TaskMissing,
-    [ValidateSet('Both','Logon','Protection')][string]$SettingsToChange = 'Both'
+    [ValidateSet('Both','Logon','Protection')][string]$SettingsToChange = 'Both',
+    [ValidatePattern('^v\d+\.\d+(\.\d+){0,2}$')][string]$ExpectedUpdateVersion = 'v1.0.1',
+    [ValidatePattern('^[0-9a-f]{5}$')][string]$StartupProbeTag
 )
 $ErrorActionPreference = 'Stop'
 $root = 'C:\PowerOwAuditFinal'
@@ -34,6 +38,8 @@ public static class AuditInput {
     private static extern void keybd_event(byte key, byte scan, uint flags, UIntPtr extra);
     [DllImport("user32.dll")]
     public static extern IntPtr GetFocus();
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetForegroundWindow();
     private static uint Extended(byte key) { return (key >= 0x21 && key <= 0x2E) || key == 0x5B || key == 0x5D ? 1u : 0u; }
     public static void Down(byte key) { keybd_event(key, 0, Extended(key), UIntPtr.Zero); }
     public static void Up(byte key) { keybd_event(key, 0, Extended(key) | 2, UIntPtr.Zero); }
@@ -116,9 +122,9 @@ function Current-Speech([string]$expression) {
     if ($spoken.Count -eq 0) { return $false }
     return $spoken[-1] -match $expression
 }
-function Expect-NewSpeech([int]$skip, [string]$expression) {
+function Expect-NewSpeech([int]$skip, [string]$expression, [int]$seconds=9) {
     $null = Wait-For { @(Get-Content -LiteralPath $speech -Encoding UTF8 | Select-Object -Skip $skip |
-        Where-Object { $_ -match 'Speaking \[' -and $_ -match $expression }).Count -gt 0 } "new NVDA speech $expression" 9
+        Where-Object { $_ -match 'Speaking \[' -and $_ -match $expression }).Count -gt 0 } "new NVDA speech $expression" $seconds
     Write-Result "NVDA read $expression."
 }
 function Select-InstallerTask([string]$phrase) {
@@ -143,8 +149,14 @@ function Start-Reader {
 }
 function Open-Application {
     Start-Process -FilePath (Join-Path $program 'PowerOw.exe')
-    $null = Wait-For { Window-With '^PowerOw v[0-9]' } 'PowerOw window'
+    $main = Wait-For { Window-With '^PowerOw v[0-9]' } 'PowerOw window'
+    $process = $main.Current.ProcessId
     Start-Sleep -Seconds 3
+    if ($elementType::FocusedElement.Current.ProcessId -ne $process) {
+        NativeKey @(0x12,0x09)
+        Write-Result 'Used Alt+Tab to move keyboard focus to the open PowerOw window.'
+    }
+    $null = Wait-For { $elementType::FocusedElement.Current.ProcessId -eq $process } 'focus in PowerOw'
 }
 function Focus-Fixture {
     Press '^f'
@@ -181,6 +193,108 @@ function Restart-Tray {
     Start-ScheduledTask -TaskName 'PowerOw'
     $null = Wait-For { Get-Process -Name PowerOw -ErrorAction SilentlyContinue | Where-Object SessionId -gt 0 } 'tray process'
 }
+
+function Open-ExplorerInForeground {
+    NativeKey @(0x5B,0x45)
+    Wait-For {
+        $handle = [AuditInput]::GetForegroundWindow()
+        $item = $elementType::FromHandle($handle)
+        if (Get-Process explorer | Where-Object Id -eq $item.Current.ProcessId) { $handle }
+    } 'Explorer in the foreground'
+}
+
+function Test-StartupNotifications {
+    $existing = 'PowerOw QA istniejący wpis'
+    $added = 'PowerOw QA wpis rejestru'
+    $logon = 'PowerOw QA zadanie logowania'
+    $daily = 'PowerOw QA zadanie okresowe'
+    $folder = Join-Path ([Environment]::GetFolderPath('Startup')) 'PowerOw QA folder startowy.cmd'
+    $action = New-ScheduledTaskAction -Execute $env:ComSpec -Argument '/d /q /c exit 0'
+    $start = @(Get-Content -LiteralPath $speech -Encoding UTF8).Count
+    try {
+        New-ItemProperty -LiteralPath $registry -Name $existing -Value $command -PropertyType ExpandString -Force | Out-Null
+        Restart-Tray
+        $foreground = Open-ExplorerInForeground
+        Start-Sleep -Seconds 12
+        $skip = @(Get-Content -LiteralPath $speech -Encoding UTF8).Count
+        New-ItemProperty -LiteralPath $registry -Name $added -Value $command -PropertyType ExpandString -Force | Out-Null
+        Register-ScheduledTask -TaskName $daily -Action $action -Trigger (New-ScheduledTaskTrigger -Daily -At '23:59') -Force | Out-Null
+        try { Expect-NewSpeech $skip ([regex]::Escape($added)) 35 }
+        catch { if ($MeasureLegacyNotifications) { Write-Result "Legacy registry notification: $_" } else { throw } }
+        if (!$MeasureLegacyNotifications) {
+            if ([AuditInput]::GetForegroundWindow() -ne $foreground) { throw 'Notification moved keyboard focus.' }
+            $skip = @(Get-Content -LiteralPath $speech -Encoding UTF8).Count
+            Set-Content -LiteralPath $folder -Value '@exit /b 0' -Encoding ASCII
+            Expect-NewSpeech $skip 'PowerOw QA folder startowy' 35
+        }
+        $skip = @(Get-Content -LiteralPath $speech -Encoding UTF8).Count
+        Register-ScheduledTask -TaskName $logon -Action $action -Trigger (New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME) -Force | Out-Null
+        try { Expect-NewSpeech $skip ([regex]::Escape($logon)) 35 }
+        catch { if ($MeasureLegacyNotifications) { Write-Result "Legacy logon task notification: $_" } else { throw } }
+        if (Window-With '^PowerOw v[0-9]') { throw 'A notification opened the main PowerOw window.' }
+        if ([AuditInput]::GetForegroundWindow() -ne $foreground) { throw 'Notification moved keyboard focus.' }
+        $spoken = @(Get-Content -LiteralPath $speech -Encoding UTF8 | Select-Object -Skip $start | Where-Object { $_ -match 'Speaking \[' })
+        if (($spoken -match ([regex]::Escape($existing))) -or ($spoken -match ([regex]::Escape($daily)))) {
+            throw 'NVDA announced an existing entry or a task unrelated to startup.'
+        }
+        Write-Result 'Explorer kept focus. No old entries or daily tasks were announced.'
+        if (!$MeasureLegacyNotifications) {
+            Verify-StartupHistory @($added,$logon,(Split-Path -Leaf $folder))
+        }
+    }
+    finally {
+        Remove-ItemProperty -LiteralPath $registry -Name $existing,$added -ErrorAction SilentlyContinue
+        Remove-Item -LiteralPath $folder -ErrorAction SilentlyContinue
+        foreach ($task in $logon,$daily) { Unregister-ScheduledTask -TaskName $task -Confirm:$false -ErrorAction SilentlyContinue }
+    }
+}
+function Test-NotificationProtection {
+    $statePath = Join-Path $program 'Data\startup.json'
+    $journal = Join-Path $env:LOCALAPPDATA 'PowerOw\startup.json'
+    $tag = [guid]::NewGuid().ToString('N').Substring(0, 6)
+    $whilePaused = "PowerOw wpis bez ochrony $tag"
+    $whileActive = "PowerOw wpis z ochroną $tag"
+    $original = -not (Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json).Paused
+
+    function Set-Protection([bool]$enabled) {
+        Open-Application
+        NativeKey @(0x11,0xBC)
+        $check = Tab-To '^Pilnuj wpisów autostartu$'
+        Set-Checkbox $check $enabled
+        Press '{ENTER}'
+        $null = Wait-For { -not (Window-With '^Ustawienia PowerOw$') } 'settings closed'
+        $null = Wait-For { (Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json).Paused -ne $enabled } 'protection state saved'
+        Press '%{F4}'
+        $null = Wait-For { -not (Window-With '^PowerOw v[0-9]') } 'main window hidden'
+    }
+
+    try {
+        Set-Protection $false
+        $null = Open-ExplorerInForeground
+        $skip = @(Get-Content -LiteralPath $speech -Encoding UTF8).Count
+        New-ItemProperty -LiteralPath $registry -Name $whilePaused -Value $command -PropertyType ExpandString -Force | Out-Null
+        Start-Sleep -Seconds 23
+        Set-Protection $true
+        $foreground = Open-ExplorerInForeground
+        Start-Sleep -Seconds 8
+        $resume = @(Get-Content -LiteralPath $speech -Encoding UTF8).Count
+        New-ItemProperty -LiteralPath $registry -Name $whileActive -Value $command -PropertyType ExpandString -Force | Out-Null
+        Expect-NewSpeech $resume ([regex]::Escape($whileActive)) 35
+        if ([AuditInput]::GetForegroundWindow() -ne $foreground) { throw 'The notification changed focus.' }
+        $spoken = @(Get-Content -LiteralPath $speech -Encoding UTF8 | Select-Object -Skip $skip | Where-Object { $_ -match 'Speaking \[' })
+        if ($spoken -match ([regex]::Escape($whilePaused))) { throw 'The entry added during the pause was announced.' }
+        $events = (Get-Content -LiteralPath $journal -Encoding UTF8 -Raw | ConvertFrom-Json).History | Where-Object Kind -eq 7
+        if (($events.Entry -contains $whilePaused) -or ($events.Entry -notcontains $whileActive)) {
+            throw 'The activity log did not reflect the protection state.'
+        }
+        Write-Result 'Verified actual protection off and on. No replay of paused changes. New changes after resuming were spoken and recorded.'
+    }
+    finally {
+        Remove-ItemProperty -LiteralPath $registry -Name $whilePaused,$whileActive -ErrorAction SilentlyContinue
+        if (-not $original) { Set-Protection $false }
+    }
+}
+
 function Expect-UpdateOffer {
     $offer = Wait-For { Window-With '^Aktualizacja PowerOw$' } 'update offer' 24
     if ($elementType::FocusedElement.Current.ProcessId -ne $offer.Current.ProcessId) {
@@ -188,7 +302,7 @@ function Expect-UpdateOffer {
         Write-Result 'Used Alt+Tab to focus the visible offer after Windows kept focus in another app.'
     }
     $null = Expect-Focus '^Nie$'
-    Wait-Speech 'Dostępna jest wersja PowerOw v1.0.1'
+    Wait-Speech "Dostępna jest wersja PowerOw $ExpectedUpdateVersion"
     return $offer
 }
 function Accept-UpdateOffer {
@@ -211,11 +325,38 @@ function Find-TrayIcon {
     Expect-Focus 'PowerOw.*Ochrona autostartu'
 }
 
+function Verify-StartupHistory([string[]]$expected) {
+    Open-Application
+    NativeKey @(0x11,0x48)
+    $history = Expect-Focus '^Dziennik działań$'
+    $body = Text-Value $history
+    if ($body -notmatch 'Wykryto nowy wpis autostartu') { throw 'The detected-entry label is missing.' }
+    foreach ($name in $expected) {
+        if ($body -notmatch ([regex]::Escape($name))) { throw "Cannot read $name in the activity log." }
+    }
+    Press '{ESC}'
+    Press '%{F4}'
+    Write-Result "Read all $($expected.Count) entries from the activity log via Ctrl+H."
+}
+
 Set-Content -LiteralPath $record -Encoding UTF8 -Value ("PowerOw audit " + $Stage)
 $reader = $null
 try {
     if ($Stage -notin 'PrepareUninstall','VerifyUninstall','VerifyUpdate') { $reader = Start-Reader }
     switch ($Stage) {
+        'Notifications' { Test-StartupNotifications }
+        'StartupSources' { . (Join-Path $PSScriptRoot 'GuestStartupSources.ps1') }
+        'VerifyStartupHistory' {
+            if (!$StartupProbeTag) { throw 'Set the tag of the completed StartupSources trial.' }
+            $journal = Join-Path $env:LOCALAPPDATA 'PowerOw\startup.json'
+            $names = (Get-Content -LiteralPath $journal -Encoding UTF8 -Raw | ConvertFrom-Json).History |
+                Where-Object { $_.Kind -eq 7 -and $_.Entry -match "$StartupProbeTag|^PowerOw QA MSIX (Desktop|UWP)$" } |
+                Select-Object -ExpandProperty Entry -Unique
+            if ($names.Count -ne 20) { throw 'The startup source trial has missing activity records.' }
+            Restart-Tray
+            Verify-StartupHistory $names
+        }
+        'NotificationsPaused' { Test-NotificationProtection }
         'Setup' {
             if (-not $program -and (Test-Path -LiteralPath $custom) -and -not (Get-ChildItem -LiteralPath $custom -Force)) {
                 [IO.Directory]::Delete($custom, $false)
@@ -452,15 +593,16 @@ try {
         }
         'VerifyUpdate' {
             $dll = Get-Item -LiteralPath (Join-Path $program 'PowerOw.dll')
-            if ($dll.VersionInfo.ProductVersion -notmatch '^1\.0\.1(?:\b|$)') { throw 'Updated application version is missing.' }
+            $version = $ExpectedUpdateVersion.Substring(1)
+            if ($dll.VersionInfo.ProductVersion -notmatch ('^' + [regex]::Escape($version) + '(?:\b|$)')) { throw 'Updated application version is missing.' }
             if ((Get-Service PowerOwGuard).Status -ne 'Running') { throw 'Protection service not running after update.' }
             if (!(Get-ScheduledTask -TaskName PowerOw).Settings.Enabled) { throw 'Update changed the logon setting.' }
             $state = Get-Content -LiteralPath (Join-Path $program 'Data\startup.json') -Raw | ConvertFrom-Json
             if ($state.Paused) { throw 'Update changed the protection setting.' }
             $preferences = Get-Content -LiteralPath "$env:LOCALAPPDATA\PowerOw\interface.json" -Raw | ConvertFrom-Json
             if ($preferences.UpdateIntervalMinutes -ne 30) { throw 'Update changed the selected interval.' }
-            $null = Wait-For { Window-With '^PowerOw v1\.0\.1$' } 'PowerOw reopened after update'
-            Write-Result 'Update installed 1.0.1, restarted PowerOw and preserved logon, protection and 30-minute interval.'
+            $null = Wait-For { Window-With ('^PowerOw ' + [regex]::Escape($ExpectedUpdateVersion) + '$') } 'PowerOw reopened after update'
+            Write-Result "Update installed $ExpectedUpdateVersion, restarted PowerOw and preserved logon, protection and 30-minute interval."
         }
         'Support' {
             Open-Application

@@ -10,7 +10,7 @@ internal static class Services
     internal const string RegistryPath = @"SYSTEM\CurrentControlSet\Services";
     internal const int Auto = 2, Demand = 3, Disabled = 4;
 
-    internal static void Enumerate(Scan scan, bool applicationsOnly = false)
+    internal static void Enumerate(Scan scan, bool applicationsOnly = false, bool startupOnly = false)
     {
         try
         {
@@ -22,7 +22,8 @@ internal static class Services
                 try
                 {
                     using var key = root.OpenSubKey(name);
-                    if (key is not null && Describe(name, key, includeManual: false) is { } item &&
+                    if (key is not null && (!startupOnly || key.GetValue("Start") is Auto) &&
+                        Describe(name, key, includeManual: false) is { } item &&
                         (!applicationsOnly || item is { Id.Kind: StartupKind.Service, WindowsComponent: false }))
                         scan.Entries.Add(item);
                 }

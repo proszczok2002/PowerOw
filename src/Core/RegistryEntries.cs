@@ -25,8 +25,8 @@ internal static class RegistryEntries
         new("MachineRun32", StartupScope.Machine, RegistryView.Registry32, Current + "Run", "Run32", true),
         new("MachineRunOnce", StartupScope.Machine, RegistryView.Registry64, Current + "RunOnce", null, true),
         new("MachineRunOnce32", StartupScope.Machine, RegistryView.Registry32, Current + "RunOnce", null, true),
+        // WOW64 shares CurrentVersion\Policies between views.
         new("MachinePolicy", StartupScope.Machine, RegistryView.Registry64, Current + @"Policies\Explorer\Run", null, false),
-        new("MachinePolicy32", StartupScope.Machine, RegistryView.Registry32, Current + @"Policies\Explorer\Run", null, false),
     ];
 
     internal static RegistryKey? Open(RegistryHive hive, RegistryView view, string path, bool write = false)

@@ -1,5 +1,21 @@
 # Audyt PowerOw
 
+## Wydanie 1.02 (v1.0.2)
+
+Próbę wykonano na Windows 11 x64 z polskim NVDA 2026.3.1. W wydaniu 1.01 NVDA odczytał powiadomienie dla nowej wartości rejestru, a dodanie zadania z wyzwalaczem logowania nie wywołało powiadomienia. W 1.02 wykrywanie korzysta również ze źródeł zadań, usług aplikacji i pakietów. Opiera się na porównaniu kolejnych odczytów podczas włączonej ochrony. [Wyzwalacz logowania](https://learn.microsoft.com/windows/win32/taskschd/logontrigger) [Wyzwalacz startu komputera](https://learn.microsoft.com/windows/win32/taskschd/boottrigger) [Deklaracje aplikacji pakietowych](https://learn.microsoft.com/windows/apps/desktop/modernize/desktop-to-uwp-extensions)
+
+| Źródło | Próby powiadomień w zasobniku |
+| --- | --- |
+| Rejestr | `Run`, `RunOnce` i `Policies\Explorer\Run` konta oraz zapis z obu widoków komputera. Łącznie dziewięć rejestracji. |
+| Foldery Startup | Zwykły plik i skrót w folderze konta oraz we wspólnym folderze. |
+| Harmonogram zadań | Zadanie logowania, zadanie startu oraz zadanie startu dodane w stanie wyłączonym. |
+| Usługi aplikacji | Automatyczny start oraz automatyczny start z opóźnieniem. |
+| MSIX/UWP | Zainstalowany pakiet testowy z deklaracją `desktop:StartupTask` oraz `uap5:StartupTask`. |
+
+NVDA odczytał wszystkie 20 nowych nazw przy fokusie pozostawionym w Eksploratorze, a w dzienniku zapisał się jeden rekord z lokalizacją dla każdej rejestracji. Próby wykluczenia objęły zadanie okresowe, usługę uruchamianą ręcznie i usługę z plikiem w katalogu Windows. Windows współdzieli klucz zasad komputera między widokami rejestru, więc PowerOw odczytuje go raz. [Obszar powiadomień Windows](https://learn.microsoft.com/windows/win32/shell/notification-area) [Klucze współdzielone w WOW64](https://learn.microsoft.com/windows/win32/winprog64/shared-registry-keys)
+
+Próby odtwarzają etapy `Notifications`, `StartupSources` i `NotificationsPaused` skryptu [GuestUiAudit.ps1](tests/GuestUiAudit.ps1). Umieść [GuestStartupSources.ps1](tests/GuestStartupSources.ps1) obok niego. W odizolowanej VM umieść podpisany `StartupProbe.msix` i publiczny `StartupProbe.cer` w `C:\PowerOwAuditFinal`. Pakiet próbny można zbudować z [manifestu](tests/fixtures/StartupProbe.AppxManifest.xml), lokalnego testowego pliku `Probe.exe` i dwóch grafik PNG `Logo.png` oraz `SmallLogo.png`. Próba instaluje pakiet i certyfikat testowy w VM, a po zakończeniu je usuwa. [Budowa pakietu MSIX](https://learn.microsoft.com/windows/msix/package/create-app-package-with-makeappx-tool) [Podpisywanie pakietu](https://learn.microsoft.com/windows/msix/package/sign-app-package-using-signtool)
+
 ## Wydanie 1.01 (v1.0.1)
 
 - Publiczne wydanie jest oznaczone jako stabilne. Aktualizator v1.0 odczytuje tag `v1.0.1`, a interfejs używa go w tytule. SHA-256 instalatora pobranego niezależnie z GitHuba i pliku pobranego wewnątrz aktualizatora były zgodne z metadanymi wydania i plikiem `SHA256SUMS.txt`. [Wydanie 1.01](https://github.com/proszczok2002/PowerOw/releases/tag/v1.0.1)

@@ -99,7 +99,7 @@ internal static class Tasks
             throw new StartupException(Problem.Occupied);
     }
 
-    internal static void Enumerate(Scan scan, bool applicationsOnly = false)
+    internal static void Enumerate(Scan scan, bool applicationsOnly = false, bool startupOnly = false)
     {
         try
         {
@@ -122,7 +122,8 @@ internal static class Tasks
                         if (applicationsOnly && Protected((string)task.Api.Path))
                             continue;
                         var details = Describe(task);
-                        if (!details.Entry.Id.Name.StartsWith(DelayPrefix, StringComparison.OrdinalIgnoreCase))
+                        if ((!startupOnly || details.AtStartup) &&
+                            !details.Entry.Id.Name.StartsWith(DelayPrefix, StringComparison.OrdinalIgnoreCase))
                             scan.Entries.Add(details.Entry);
                     }
                     catch (Exception error) when (Faults.Expected(error)) { scan.Unavailable.Add(StartupKind.Task); }
@@ -350,13 +351,15 @@ internal static class Tasks
         var capability = system ? EntryActions.None : EntryActions.Disable | EntryActions.Enable;
         if (!system && CanRecreate(Logon(principal)))
             capability |= EntryActions.Remove;
-        string extra = string.Join(", ", root.Element(Ns + "Triggers")?.Elements().Select(trigger => trigger.Name.LocalName) ?? []);
+        var triggers = root.Element(Ns + "Triggers")?.Elements().ToArray() ?? [];
+        bool atStartup = triggers.Any(trigger => trigger.Name == Ns + "BootTrigger" || trigger.Name == Ns + "LogonTrigger");
+        string extra = string.Join(", ", triggers.Select(trigger => trigger.Name.LocalName));
         root.Element(Ns + "Settings")?.Element(Ns + "Enabled")?.Remove();
         string definition = Hash(root.ToString(SaveOptions.DisableFormatting));
         var entry = new StartupEntry(new EntryId(StartupKind.Task, StartupScope.Machine, "", path), name, path,
             string.Join(Environment.NewLine, actions), actions.Length > 0 ? CommandPath.Target(actions[0]) : null,
             enabled ? EntryState.Active : EntryState.WindowsDisabled, capability, definition + (enabled ? ":1" : ":0"), extra, system);
-        return new Details(entry, definition, xml);
+        return new Details(entry, definition, xml, atStartup);
     }
 
     private static int Logon(XElement? principal)
@@ -392,7 +395,7 @@ internal static class Tasks
         catch { service.Dispose(); throw; }
     }
 
-    private sealed record Details(StartupEntry Entry, string Definition, string Xml);
+    private sealed record Details(StartupEntry Entry, string Definition, string Xml, bool AtStartup);
 }
 
 internal sealed class ComObject(object value) : IDisposable
