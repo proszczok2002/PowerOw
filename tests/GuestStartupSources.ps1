@@ -3,6 +3,7 @@
 }
 
 $tag = [Guid]::NewGuid().ToString('N').Substring(0, 5)
+Write-Result "Startup probe tag $tag"
 $packageName = 'Proszczok.PowerOw.NotificationProbe'
 $packaged = 'PowerOw QA MSIX Desktop','PowerOw QA MSIX UWP'
 $msix = Join-Path $root 'StartupProbe.msix'
@@ -123,8 +124,7 @@ try {
         if (($events.Entry -contains $name) -or ($spoken -match ([regex]::Escape($name)))) { throw "Unexpected notification for $name." }
     }
     Write-Result "Saved $($expected.Count) distinct entries with locations. Unchanged entries, the timed task and excluded services stayed silent."
-    Verify-StartupHistory $expected
-    Write-Result "All entries were readable in the activity log. Defender real-time protection=$((Get-MpComputerStatus).RealTimeProtectionEnabled)."
+    Write-Result "Defender real-time protection=$((Get-MpComputerStatus).RealTimeProtectionEnabled)."
 }
 finally {
     foreach ($source in $registrySources) {

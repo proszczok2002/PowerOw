@@ -153,8 +153,8 @@ function Open-Application {
     $process = $main.Current.ProcessId
     Start-Sleep -Seconds 3
     if ($elementType::FocusedElement.Current.ProcessId -ne $process) {
-        NativeKey @(0x12,0x09)
-        Write-Result 'Used Alt+Tab to move keyboard focus to the open PowerOw window.'
+        $null = $shell.AppActivate($process)
+        Write-Result 'Activated the open PowerOw window before sending keyboard commands.'
     }
     $null = Wait-For { $elementType::FocusedElement.Current.ProcessId -eq $process } 'focus in PowerOw'
 }
