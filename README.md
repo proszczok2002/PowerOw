@@ -36,7 +36,7 @@ Domyślny widok **Programy startujące z Windows** obejmuje wpisy logowania, apl
 
 | Źródło | Obsługa w PowerOw |
 | --- | --- |
-| Rejestr `Run`, `RunOnce` i `Policies\Explorer\Run` bieżącego konta oraz komputera | Wyłączanie, usuwanie, przywracanie i ochrona edytowalnych wpisów. Wpisy z zasad są widoczne do odczytu. Dla komputera odczyt obu widoków rejestru. |
+| Rejestr `Run`, `RunOnce` i `Policies\Explorer\Run` bieżącego konta oraz komputera | Wyłączanie, usuwanie, przywracanie i ochrona edytowalnych wpisów. `Run` i `RunOnce` komputera są odczytywane w obu widokach rejestru. Wspólny klucz zasad jest widoczny do odczytu. |
 | Startup konta i wspólny folder Startup | Te same operacje dla zwykłych plików i skrótów. Kopia zachowuje zawartość pliku. |
 | Harmonogram zadań | Przegląd wyzwalaczy i akcji, wyłączanie i ponowne włączanie zadań spoza chronionych lokalizacji. Usuwanie z kopią XML i uprawnień dla obsługiwanych typów logowania. |
 | Usługi | Wyłączanie i przywracanie trybu startu usług spoza chronionych składników, również z opóźnionym startem. Zmiana dotyczy konfiguracji następnego uruchomienia usługi. |

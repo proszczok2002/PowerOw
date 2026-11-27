@@ -1,7 +1,7 @@
 ﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][ValidateSet('Setup','App','Tray','SettingsOff','SettingsOn','PrepareUninstall','ObserveUninstall','VerifyUninstall',
-        'UpdatePaused','UpdateBackground','UpdateRetry','VerifyUpdate','Support','Notifications','StartupSources','VerifyStartupHistory',
+        'UpdatePaused','UpdateBackground','UpdateRetry','UpdateFromTray','VerifyUpdate','Support','Notifications','StartupSources','VerifyStartupHistory',
         'NotificationsPaused')][string]$Stage,
     [switch]$ExistingProtectionRule,
     [switch]$UseDefault,
@@ -590,6 +590,12 @@ try {
             Wait-Speech 'potwierdź uprawnienia w oknie Windows' 32
             Wait-Speech 'Instalowanie PowerOw' 50
             Write-Result 'NVDA read both download and installer progress.'
+        }
+        'UpdateFromTray' {
+            if (Window-With '^PowerOw v[0-9]') { throw 'The main window must stay hidden before a background update.' }
+            Accept-UpdateOffer
+            Wait-Speech 'Instalowanie PowerOw' 90
+            Write-Result 'NVDA read download and installation progress after accepting the background update and its UAC prompt.'
         }
         'VerifyUpdate' {
             $dll = Get-Item -LiteralPath (Join-Path $program 'PowerOw.dll')

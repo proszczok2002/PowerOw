@@ -16,7 +16,19 @@ NVDA odczytał wszystkie 20 nowych nazw przy fokusie pozostawionym w Eksplorator
 
 Skrót **Ctrl+H** przeniósł fokus do pola **Dziennik działań** z wszystkimi 20 wynikami. Czysta kompilacja z tagu przeszła 3552 kontrole, w tym sprawdzenie 199 komunikatów w ośmiu językach oraz dostępnych nazw dla 24 kombinacji języka i motywu. Instalator zawiera osiem języków. Próby interakcji na żywo wykonano z polskim NVDA na Windows 11.
 
+Po wstrzymaniu ochrony wpis próbny pozostał bez powiadomienia. Po wznowieniu PowerOw potraktował go jako część stanu początkowego. Dla następnego wpisu NVDA odczytał alert, a dziennik zapisał nazwę i lokalizację.
+
+### Publiczna aktualizacja z 1.01
+
+- Wersja 1.01 wykryła stabilny tag `v1.0.2` w tle. NVDA odczytał ofertę, domyślne **Nie** ją zamknęło, a ręczne sprawdzenie w ustawieniach pokazało ją ponownie. Następnie zaakceptowano aktualizację oraz UAC. W osobnej próbie zaakceptowano ofertę bezpośrednio z zasobnika i NVDA odczytał postęp pobierania oraz instalacji. Zapis mowy z pierwszej próby pominął osobną zapowiedź przed przejściem do UAC. [Wydanie 1.02](https://github.com/proszczok2002/PowerOw/releases/tag/v1.0.2)
+- Plik pobrany przez aktualizator i plik pobrany niezależnie mają SHA-256 `3E0609799A6B5674362E67895EF894CC7119DDE83C5370E08F4EF769F979B122`. Instalacja przy włączonym Defenderze uruchomiła PowerOw v1.0.2. Pozostały zapisane autostart z najwyższymi uprawnieniami, ochrona i ustawiony interwał 30 minut.
+- Klawisz menu na ikonie zasobnika przeniósł fokus na pierwsze polecenie, które NVDA odczytał przed użyciem strzałki. Z zasobnika otwarto ustawienia i sprawdzono wersję. Po instalacji wyłączono i ponownie włączono autostart oraz ochronę w interfejsie i sprawdzono stan zadania Harmonogramu oraz zapisu ochrony.
+
+### Odtworzenie prób
+
 Próby odtwarzają etapy `Notifications`, `StartupSources` i `NotificationsPaused` skryptu [GuestUiAudit.ps1](tests/GuestUiAudit.ps1). Etap `VerifyStartupHistory` z parametrem `-StartupProbeTag` przyjmuje identyfikator wpisany w protokole `StartupSources`. Umieść [GuestStartupSources.ps1](tests/GuestStartupSources.ps1) obok głównego skryptu. W odizolowanej VM umieść podpisany `StartupProbe.msix` i publiczny `StartupProbe.cer` w `C:\PowerOwAuditFinal`. Pakiet próbny można zbudować z [manifestu](tests/fixtures/StartupProbe.AppxManifest.xml), lokalnego testowego pliku `Probe.exe` i dwóch grafik PNG `Logo.png` oraz `SmallLogo.png`. Próba instaluje pakiet i certyfikat testowy w VM, a po zakończeniu je usuwa. [Budowa pakietu MSIX](https://learn.microsoft.com/windows/msix/package/create-app-package-with-makeappx-tool) [Podpisywanie pakietu](https://learn.microsoft.com/windows/msix/package/sign-app-package-using-signtool)
+
+Do próby publicznej aktualizacji użyj `UpdateFromTray` oraz parametru `-ExpectedUpdateVersion v1.0.2` po wystąpieniu oferty w zasobniku v1.0.1. W trakcie próby potwierdź monit UAC w systemie gościa.
 
 ## Wydanie 1.01 (v1.0.1)
 
